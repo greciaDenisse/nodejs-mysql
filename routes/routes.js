@@ -2,7 +2,7 @@ import express from "express";
 import { getAllCat,createCat,deleteCat,getCat,updateCat ,upload}from "../controllers/ControllerCatMat.js";
 import { createMat,deleteMat,updateMat,getMat,getMatActivo } from "../controllers/ControllerMaterial.js";
 import {createTipo,getAllTipo,getTipo,updateTipo,deleteTipo } from "../controllers/ControllerTipObra.js";
-import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from "../controllers/ControllerObra.js";
+import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from "../controllers/ControllerObras.js";
 import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
 

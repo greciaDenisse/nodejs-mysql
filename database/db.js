@@ -1,5 +1,4 @@
 import { Sequelize } from "sequelize";
-import { DB_HOST,DB_NAME,DB_PASSWORD,DB_PORT,DB_USER } from "../config.js";
 import * as dotenv from "dotenv"
 
 dotenv.config()
