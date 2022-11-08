@@ -15,6 +15,9 @@ app.use("/images",express.static("./images"))
 try {
     await db.authenticate()
     console.log("conexion exitosa")
+    app.get('/',(req,res)=>{
+    res.send("conexión exitosa")
+        })
 } catch (error) {
     console.log(`El error de conexion es: ${error}`)
 }
