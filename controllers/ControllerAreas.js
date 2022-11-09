@@ -1,4 +1,4 @@
-import { ModelAreas } from "../models/Models.js";
+import { ModelAreas } from "../models/Modelos.js";
 import { Sequelize } from "sequelize";
 import db from "../database/db.js";
 
