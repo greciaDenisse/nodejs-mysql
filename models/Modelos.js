@@ -50,6 +50,15 @@ export const TipObra = db.define('tiposobras',{
 }
 )
 
+//Modelo areas
+export const ModelAreas = db.define('areas',{
+    idArea: {type: DataTypes.INTEGER, primaryKey:true},
+    nombreArea: {type: DataTypes.STRING},
+    estadoArea: {type: DataTypes.STRING},
+},{
+    timestamps: false
+})
+
 export const Entrada = db.define('entradamateriales',{
     idEntMat:{type:DataTypes.INTEGER,primaryKey:true},
     cantEntMat:{type: DataTypes.INTEGER},

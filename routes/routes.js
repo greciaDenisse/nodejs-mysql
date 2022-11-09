@@ -5,6 +5,7 @@ import {createTipo,getAllTipo,getTipo,updateTipo,deleteTipo } from "../controlle
 import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from "../controllers/ControllerObras.js";
 import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
+import { getAllAreas, getArea, createArea, updateArea, deleteArea} from '../controllers/ControllerAreas.js';
 
 const router= express.Router()
 
@@ -37,5 +38,14 @@ router.get('/entradas/',getAllEntradas)
 router.post('/entradas/',createEntrada)
 
 router.get('/bodegas/',getAllBodegas)
+
+
+//Areas
+router.get('/areas/', getAllAreas)
+router.get('/areas/:id', getArea)
+router.post('/areas/', createArea)
+router.put('/areas/:id', updateArea)
+router.delete('/areas/:id', deleteArea)
+
 
 export default router
