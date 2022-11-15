@@ -9,7 +9,7 @@ import {rename, unlink} from 'node:fs';
 export const getAllCat = async (req,res) => {
     try{
         const catMateriales= await db.query(
-            'select idCatMat,nombreCatMat,imagenCatMat from catmateriales where estadoCatMat=1',
+            'select idCatMat,nombreCatMat,imagenCatMat from categoria_mat where estadoCatMat=1',
             {type:db.QueryTypes.SELECT}
         )
         res.json(catMateriales)
