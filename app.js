@@ -1,7 +1,7 @@
 import express from "express";
 import cors from 'cors';
 import db from "./database/db.js";
-import rosmoRoutes from "./routes/Routes.js";
+import rosmoRoutes from "./routes/routes.js";
 import * as dotenv from "dotenv"
 
 dotenv.config()
