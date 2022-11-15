@@ -160,9 +160,9 @@ export const Materiales = db.define('materiales',{
     codigoMat:{type: DataTypes.STRING},
     nombreMat:{type: DataTypes.STRING},
     estadoMat:{type:DataTypes.BOOLEAN},
-    unidadMat:{type: DataTypes.STRING},
     stockMat:{type: DataTypes.STRING},
-    idCatMat:{type:DataTypes.INTEGER}
+    idCatMat:{type:DataTypes.INTEGER},
+    idUnidad:{type:DataTypes.INTEGER}
 },{
     timestamps:false
 }
