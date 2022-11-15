@@ -10,6 +10,7 @@ import { getAllCat,createCat,deleteCat,getCat,updateCat ,upload}from "../control
 import { createMat,deleteMat,updateMat,getMat,getMatActivo } from "../controllers/ControllerMaterial.js";
 import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from "../controllers/ControllerObras.js";
 import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.js";
+import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "../controllers/ControllerUnidad.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
 
 const router = express.Router();
@@ -90,6 +91,13 @@ router.post('/entradas/',createEntrada)
 
 //Bodegas
 router.get('/bodegas/',getAllBodegas)
+
+//unidades
+router.get('/unidad/', getAllUnidades)
+router.get('/unidad/:id', getUnidad)
+router.post('/unidad/', createUnidad)
+router.put('/unidad/:id', updateUnidad)
+router.delete('/unidad/:id', deleteUnidad)
 
 
 export default router;

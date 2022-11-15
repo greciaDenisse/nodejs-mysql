@@ -167,3 +167,13 @@ export const Materiales = db.define('materiales',{
     timestamps:false
 }
 )
+
+//Unidades
+export const Unidades = db.define('unidades',{
+    idUnidad:{type:DataTypes.INTEGER,primaryKey:true},
+    nombreUnidad:{type: DataTypes.STRING},
+    estadoUnidad:{type: DataTypes.BOOLEAN}
+},{
+    timestamps:false
+}
+)
