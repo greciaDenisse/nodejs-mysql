@@ -15,7 +15,7 @@ export const getAllMat = async (req,res) => {
 export const getMatActivo = async (req,res) => {
     try{
          const materiales= await db.query(
-             'select idMaterial,codigoMat,nombreMat,unidadMat,stockMat,idCatMat from materiales where estadoMat=1',
+             'select idMaterial,codigoMat,nombreMat,idUnidad,stockMat,idCatMat from materiales where estadoMat=1',
              {type:db.QueryTypes.SELECT}
          )
          res.json(materiales)
@@ -49,7 +49,7 @@ export const createMat = async (req,res) =>{
 
         const lastId = idMat[0]["maxId"];  
         const nombre = req.body.nombreMat
-        const unidad = req.body.unidadMat
+        const unidad = req.body.idUnidad
         const idCat = req.body.idCatMat
 
         // realizar una consulta en la tabla materiales pasandole como parametro el id de la categoria
@@ -75,7 +75,7 @@ export const createMat = async (req,res) =>{
         })
         if(resultado.length === 0){
             await Materiales.create({idMaterial: lastId + 1, 
-                codigoMat:myString, nombreMat: nombre, estadoMat:1,unidadMat:unidad,stockMat:0,idCatMat:idCat})
+                codigoMat:myString, nombreMat: nombre, estadoMat:1,idUnidad:unidad,stockMat:0,idCatMat:idCat})
             res.json({
                 "message": "¡Registro creado correctamente!"
                
@@ -95,7 +95,7 @@ export const createMat = async (req,res) =>{
 export const updateMat =  async (req,res)=>{
     try{
         const nombre = req.body.nombreMat
-        const unidad = req.body.unidadMat
+        const unidad = req.body.idUnidad
 
         const tablaCate = await Materiales.findAll({
             where:{idMaterial:req.params.id}
@@ -126,7 +126,7 @@ export const updateMat =  async (req,res)=>{
             where:{codigoMat:myString}
         })
         if(resultado.length === 0){
-       await Materiales.update({codigoMat:myString,nombreMat:nombre,unidadMat:unidad},{
+       await Materiales.update({codigoMat:myString,nombreMat:nombre,idUnidad:unidad},{
             where:{
                 idMaterial:req.params.id}
         })
