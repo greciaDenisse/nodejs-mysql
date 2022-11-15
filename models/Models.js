@@ -2,7 +2,7 @@ import db from '../database/db.js';
 import { DataTypes } from 'sequelize';
 
 //Modelo categoria herramientas
-export const ModelCatHer = db.define('categoria_her',{
+export const ModelCatHer = db.define('categoria_herramientas',{
     idCatHer: {type: DataTypes.INTEGER, primaryKey: true},    
     nombreCatHer: {type: DataTypes.STRING},
     imagenCatHer: {type: DataTypes.STRING},
@@ -33,7 +33,7 @@ export const Obras = db.define('obras',{
 
 //Modelo Tipo Obra
 
-export const TipObra = db.define('tipos_obra',{
+export const TipObra = db.define('tipos_obras',{
     idTipoObra:{type:DataTypes.INTEGER,primaryKey:true},
     nombreTipoObra:{type: DataTypes.STRING},
     estadoTipoObra:{type: DataTypes.BOOLEAN}
@@ -61,7 +61,7 @@ export const ModelPuestos = db.define('puestos',{
 })
 
 //Marcas
-export const ModelMarcas = db.define('marcas_her',{
+export const ModelMarcas = db.define('marcas_herramientas',{
     idMarca: {type: DataTypes.INTEGER, primaryKey:true},
     nombreMarca: {type: DataTypes.STRING},
     estadoMarca: {type: DataTypes.BOOLEAN},
@@ -105,7 +105,7 @@ export const ModelEmpleados = db.define('empleados',{
 })
 
 //Salida Herramientas
-export const ModelSalidaHerramientas = db.define('salida_her',{
+export const ModelSalidaHerramientas = db.define('salida_herramientas',{
     idSalHer: {type: DataTypes.INTEGER},
     idHerramienta: {type: DataTypes.INTEGER},
     idObra: {type: DataTypes.INTEGER},
@@ -118,7 +118,7 @@ export const ModelSalidaHerramientas = db.define('salida_her',{
 })
 //Entradas
 
-export const Entrada = db.define('entrada_mat',{
+export const Entrada = db.define('entrada_materiales',{
     idEntMat:{type:DataTypes.INTEGER,primaryKey:true},
     cantEntMat:{type: DataTypes.INTEGER},
     precioUni:{type: DataTypes.DOUBLE},
@@ -132,7 +132,7 @@ export const Entrada = db.define('entrada_mat',{
 )
 
 //Bodegas
-export const Bodegas = db.define('bodegas',{
+export const Bodegas = db.define('bodegas_materiales',{
     idBodega:{type:DataTypes.INTEGER,primaryKey:true},
     nombreBod:{type: DataTypes.STRING},
     direccionBod:{type: DataTypes.STRING},
@@ -144,7 +144,7 @@ export const Bodegas = db.define('bodegas',{
 
 //Categoria materiales
 
-export const CategoriaModel = db.define('categoria_mat',{
+export const CategoriaModel = db.define('categoria_materiales',{
     idCatMat:{type:DataTypes.INTEGER,primaryKey:true},
     nombreCatMat:{type: DataTypes.STRING},
     estadoCatMat:{type:DataTypes.BOOLEAN},
@@ -169,7 +169,7 @@ export const Materiales = db.define('materiales',{
 )
 
 //Unidades
-export const Unidades = db.define('unidades_mat',{
+export const Unidades = db.define('unidades_materiales',{
     idUnidad:{type:DataTypes.INTEGER,primaryKey:true},
     nombreUnidad:{type: DataTypes.STRING},
     estadoUnidad:{type: DataTypes.BOOLEAN}
