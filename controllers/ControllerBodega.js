@@ -1,4 +1,4 @@
-import { Bodegas } from "../models/Modelos.js"
+import { Bodegas } from "../models/Models.js"
 
 
 export const getAllBodegas = async (req,res) => {

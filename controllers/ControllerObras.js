@@ -1,4 +1,4 @@
-import {Obras} from "../models/Modelos.js";
+import {Obras} from "../models/Models.js";
 import { Sequelize } from "sequelize";
 import multer from "multer";
 import db from "../database/db.js";
@@ -7,7 +7,7 @@ import {rename, unlink} from 'node:fs';
 export const getAllObras = async (req,res) => {
     try{
         const obras= await db.query(
-            'select o.idObra,o.nombreObra,o.clienteObra,o.direccionObra,o.fechaInicio,o.fechaFinal,o.imagenObra,t.nombreTObra from obras o JOIN tiposobras t ON o.idTipoObra=t.idTObra where o.estadoObra=1',
+            'select o.idObra,o.nombreObra,o.clienteObra,o.direccionObra,o.fechaInicio,o.fechaFinal,o.imagenObra,t.nombreTipoObra from obras o JOIN tiposobras t ON o.idTObra=t.idTipoObra where o.estadoObra=1',
             {type:db.QueryTypes.SELECT}
         )
         res.json(obras)

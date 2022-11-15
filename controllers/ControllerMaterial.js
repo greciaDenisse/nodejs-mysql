@@ -1,4 +1,4 @@
-import {Materiales} from "../models/Modelos.js";
+import {Materiales} from "../models/Models.js";
 import { Sequelize } from "sequelize";
 import db from "../database/db.js";
 //**mostrar todo **/

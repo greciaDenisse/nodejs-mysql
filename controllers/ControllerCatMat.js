@@ -1,4 +1,4 @@
-import {CategoriaModel} from "../models/Modelos.js";
+import {CategoriaModel} from "../models/Models.js";
 import { Sequelize } from "sequelize";
 import multer from "multer";
 import db from "../database/db.js";

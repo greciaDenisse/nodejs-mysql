@@ -1,11 +1,11 @@
-import {TipObra} from "../models/Modelos.js";
+import {TipObra} from "../models/Models.js";
 import { Sequelize } from "sequelize";
 import db from "../database/db.js";
 
 export const getAllTipo = async (req,res) => {
     try{
         const obrasTipo= await db.query(
-            'select idTObra,nombreTObra from tiposobras where estadoTObra=1',
+            'select idTipoObra,nombreTipoObra from tiposobras where estadoTipoObra=1',
             {type:db.QueryTypes.SELECT}
         )
         res.json(obrasTipo)
