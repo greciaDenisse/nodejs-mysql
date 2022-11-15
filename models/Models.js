@@ -132,7 +132,7 @@ export const Entrada = db.define('entrada_mat',{
 )
 
 //Bodegas
-export const Bodegas = db.define('bodegas_mat',{
+export const Bodegas = db.define('bodegas',{
     idBodega:{type:DataTypes.INTEGER,primaryKey:true},
     nombreBod:{type: DataTypes.STRING},
     direccionBod:{type: DataTypes.STRING},

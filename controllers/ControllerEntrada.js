@@ -6,7 +6,7 @@ import db from "../database/db.js";
 export const getAllEntradas = async (req,res) => {
     try{
         const entradaMat= await db.query(
-            'SELECT e.idObra, e.cantEntMat,e.precioUni, m.nombreMat,b.nombreBod from  entrada_mat e JOIN materiales m ON m.idMaterial=e.idMaterial JOIN bodegas_mat b ON b.idBodega=e.idBodega'
+            'SELECT e.idObra, e.cantEntMat,e.precioUni, m.nombreMat,b.nombreBod from  entrada_mat e JOIN materiales m ON m.idMaterial=e.idMaterial JOIN bodegas b ON b.idBodega=e.idBodega'
             ,{type:db.QueryTypes.SELECT}
         )
         res.json(entradaMat)
