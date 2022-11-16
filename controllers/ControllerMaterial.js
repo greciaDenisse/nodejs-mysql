@@ -15,7 +15,7 @@ export const getAllMat = async (req,res) => {
 export const getMatActivo = async (req,res) => {
     try{
          const materiales= await db.query(
-             'select idMaterial,codigoMat,nombreMat,idUnidad,stockMat,idCatMat from materiales where estadoMat=1',
+             'select idMaterial,codigoMat,nombreMat,stockMat,idCatMat,idUnidad from materiales where estadoMat=1',
              {type:db.QueryTypes.SELECT}
          )
          res.json(materiales)
@@ -55,7 +55,7 @@ export const createMat = async (req,res) =>{
         // realizar una consulta en la tabla materiales pasandole como parametro el id de la categoria
         //para que regrese el nombre de la categoria
         const categoriaSelect= await db.query(
-            'SELECT nombreCatMat FROM catMateriales WHERE idCatMat = ?',
+            'SELECT nombreCatMat FROM categoria_materiales WHERE idCatMat = ?',
             {
               replacements: [idCat],
               type: db.QueryTypes.SELECT
@@ -107,7 +107,7 @@ export const updateMat =  async (req,res)=>{
         // realizar una consulta en la tabla materiales pasandole como parametro el id de la categoria
         //para que regrese el nombre de la categoria
         const categoriaSelect= await db.query(
-            'SELECT nombreCatMat FROM catMateriales WHERE idCatMat = ?',
+            'SELECT nombreCatMat FROM categoria_materiales WHERE idCatMat = ?',
             {
               replacements: [numCate],
               type: db.QueryTypes.SELECT

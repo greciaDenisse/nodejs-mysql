@@ -5,7 +5,7 @@ import db from "../database/db.js";
 export const getAllTipo = async (req,res) => {
     try{
         const obrasTipo= await db.query(
-            'select idTipoObra,nombreTipoObra from tipos_obra where estadoTipoObra=1',
+            'select idTipoObra,nombreTipoObra from tipos_obras where estadoTipoObra=1',
             {type:db.QueryTypes.SELECT}
         )
         res.json(obrasTipo)

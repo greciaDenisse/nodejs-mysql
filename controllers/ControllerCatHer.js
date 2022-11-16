@@ -7,7 +7,7 @@ import db from "../database/db.js";
 export const getAllCatHer = async (req, res) => {
     try{
         const categorias = await  db.query(
-            'SELECT * FROM categoria_her where estadoCatHer = 1',
+            'SELECT * FROM categoria_herramientas where estadoCatHer = 1',
             {type: db.QueryTypes.SELECT}
         )
         res.json(categorias)

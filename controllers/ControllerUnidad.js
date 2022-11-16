@@ -5,7 +5,7 @@ import db from "../database/db.js";
 export const getAllUnidades = async (req,res) => {
     try{
         const unidades= await db.query(
-            'select idUnidad,nombreUnidad from unidades_mat where estadoUnidad=1',
+            'select idUnidad,nombreUnidad from unidades_materiales where estadoUnidad=1',
             {type:db.QueryTypes.SELECT}
         )
         res.json(unidades)

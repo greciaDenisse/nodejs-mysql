@@ -7,7 +7,7 @@ import {rename, unlink} from 'node:fs';
 export const getAllObras = async (req,res) => {
     try{
         const obras= await db.query(
-            'select o.idObra,o.nombreObra,o.clienteObra,o.direccionObra,o.fechaInicio,o.fechaFinal,o.imagenObra,t.nombreTipoObra from obras o JOIN tipos_obra t ON o.idTObra=t.idTipoObra where o.estadoObra=1',
+            'select o.idObra,o.nombreObra,o.clienteObra,o.direccionObra,o.fechaInicio,o.fechaFinal,o.imagenObra,t.nombreTipoObra from obras o JOIN tipos_obras t ON o.idTObra=t.idTipoObra where o.estadoObra=1',
             {type:db.QueryTypes.SELECT}
         )
         res.json(obras)

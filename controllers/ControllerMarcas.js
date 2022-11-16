@@ -5,7 +5,7 @@ import db from "../database/db.js";
 export const getAllMarcas = async (req, res) => {
     try{
         const marcas = await db.query(
-            'SELECT * FROM marcas_her where estadoMarca = 1',
+            'SELECT * FROM marcas_herramientas where estadoMarca = 1',
             {type: db.QueryTypes.SELECT}
         )
         res.json(marcas)
