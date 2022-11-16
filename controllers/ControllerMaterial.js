@@ -15,7 +15,7 @@ export const getAllMat = async (req,res) => {
 export const getMatActivo = async (req,res) => {
     try{
          const materiales= await db.query(
-             'select idMaterial,codigoMat,nombreMat,stockMat,idCatMat,idUnidad from materiales where estadoMat=1',
+             'select m.idMaterial,m.codigoMat,m.nombreMat,m.stockMat,m.idCatMat,u.nombreUnidad from materiales m JOIN unidades_materiales u ON u.idUnidad = m.idUnidad where m.estadoMat=1',
              {type:db.QueryTypes.SELECT}
          )
          res.json(materiales)
@@ -47,39 +47,30 @@ export const createMat = async (req,res) =>{
             raw: true,
         })
 
-        const lastId = idMat[0]["maxId"];  
+        const lastId = idMat[0]["maxId"];
+        const codigo = req.body.codigoMat  
         const nombre = req.body.nombreMat
         const unidad = req.body.idUnidad
         const idCat = req.body.idCatMat
 
-        // realizar una consulta en la tabla materiales pasandole como parametro el id de la categoria
-        //para que regrese el nombre de la categoria
-        const categoriaSelect= await db.query(
-            'SELECT nombreCatMat FROM categoria_materiales WHERE idCatMat = ?',
-            {
-              replacements: [idCat],
-              type: db.QueryTypes.SELECT
-            }
-        )
-
-        let nombreCate=categoriaSelect[0].nombreCatMat
-        //indicamos el codigo utilizando el nombre de la categoria, la unidad, nombre del material, etc
-        const cadenaCate = nombreCate.substring(0,3);
-        const cadenaNombre = nombre.substring(0,3);
-        const cadenaunidad = unidad.substring(0,3);
-        const numeroMat = lastId+1
-        const myString = cadenaCate+numeroMat.toString()+cadenaNombre+cadenaunidad;
-
         const resultado = await Materiales.findAll({
-            where:{codigoMat:myString}
+            where:{codigoMat:codigo}
         })
         if(resultado.length === 0){
-            await Materiales.create({idMaterial: lastId + 1, 
-                codigoMat:myString, nombreMat: nombre, estadoMat:1,idUnidad:unidad,stockMat:0,idCatMat:idCat})
-            res.json({
-                "message": "¡Registro creado correctamente!"
-               
+            const resnom = await Materiales.findAll({
+                where:{nombreMat:nombre,idUnidad:unidad}
             })
+            if(resnom.length === 0){
+                await Materiales.create({idMaterial: lastId + 1, 
+                    codigoMat:codigo, nombreMat: nombre, estadoMat:1,idUnidad:unidad,stockMat:0,idCatMat:idCat})
+                res.json({
+                    "message": "¡Registro creado correctamente!"                   
+                })
+            }else{
+                res.json({
+                    "message": "Nombre y unidad ya registrados"                   
+                })
+            }        
         }else{
             res.json({
                 "message": "Ya existe"
@@ -94,47 +85,57 @@ export const createMat = async (req,res) =>{
 
 export const updateMat =  async (req,res)=>{
     try{
+        const codigo = req.body.codigoMat  
         const nombre = req.body.nombreMat
         const unidad = req.body.idUnidad
 
-        const tablaCate = await Materiales.findAll({
-            where:{idMaterial:req.params.id}
-        })
-        //obtener id de la categoria y id del material para modificar el codigo
-        const numCate= tablaCate[0].idCatMat
-        const numeroId= tablaCate[0].idMaterial
-
-        // realizar una consulta en la tabla materiales pasandole como parametro el id de la categoria
-        //para que regrese el nombre de la categoria
-        const categoriaSelect= await db.query(
-            'SELECT nombreCatMat FROM categoria_materiales WHERE idCatMat = ?',
-            {
-              replacements: [numCate],
-              type: db.QueryTypes.SELECT
-            }
-        )
-        let nombreCate=categoriaSelect[0].nombreCatMat
-
-        //indicamos el codigo utilizando el nombre de la categoria, la unidad, nombre del material
-        const cadenaCate = nombreCate.substring(0,3);
-        const cadenaNombre = nombre.substring(0,3);
-        const cadenaunidad = unidad.substring(0,3);
-        const numeroMat = numeroId.toString()
-        const myString = cadenaCate+numeroMat+cadenaNombre+cadenaunidad;
-
         const resultado = await Materiales.findAll({
-            where:{codigoMat:myString}
+            where:{codigoMat:codigo}
         })
         if(resultado.length === 0){
-       await Materiales.update({codigoMat:myString,nombreMat:nombre,idUnidad:unidad},{
-            where:{
-                idMaterial:req.params.id}
-        })
-        res.json({"message":"Registro modificado"})
-        }else{
-            res.json({
-                "message": "Ya existe"
+            const resnom = await Materiales.findAll({
+                where:{nombreMat:nombre,idUnidad:unidad}
             })
+            if(resnom.length === 0){
+                await Materiales.update({codigoMat:codigo,nombreMat:nombre,idUnidad:unidad},{
+                    where:{
+                        idMaterial:req.params.id}
+                })
+                res.json({
+                    "message": "¡Registro modificado correctamente!"                   
+                })
+            }else{
+                await Materiales.update({codigoMat:codigo},{
+                    where:{
+                        idMaterial:req.params.id}
+                })
+                res.json({
+                    "message": "¡Registro modificado correctamente!"                   
+                })
+            }        
+        }else{
+            if(resultado[0].dataValues.codigoMat===codigo){
+                const resnomuni = await Materiales.findAll({
+                    where:{nombreMat:nombre,idUnidad:unidad}
+                })
+                if(resnomuni.length === 0){
+                    await Materiales.update({nombreMat:nombre,idUnidad:unidad},{
+                        where:{
+                            idMaterial:req.params.id}
+                    })
+                    res.json({
+                        "message": "¡Registro modificado correctamente!"                   
+                    })
+                }else{
+                    res.json({
+                        "message": "Nombre y unidad ya registrados"                   
+                    })
+                }    
+            }else{
+                res.json({
+                    "message": "Ya existe"
+                })
+            }  
         }
     } catch (error){
         res.json({message:error.message})
