@@ -7,7 +7,7 @@ import {rename, unlink} from 'node:fs';
 export const getAllObras = async (req,res) => {
     try{
         const obras= await db.query(
-            'select o.idObra,o.nombreObra,o.clienteObra,o.direccionObra,o.fechaInicio,o.fechaFinal,o.imagenObra,t.nombreTipoObra from obras o JOIN tipos_obras t ON o.idTObra=t.idTipoObra where o.estadoObra=1',
+            'select o.idObra,o.nombreObra,o.clienteObra,o.direccionObra,e.nombreEmp, o.fechaInicio,o.fechaFinal,o.imagenObra,t.nombreTipoObra from obras o JOIN tipos_obras t ON o.idTObra=t.idTipoObra JOIN empleados e ON e.idEmpleado = o.administrador  where o.estadoObra=1',
             {type:db.QueryTypes.SELECT}
         )
         res.json(obras)
@@ -57,6 +57,7 @@ export const createObra = async  (req,res) =>{
         const fechaI = req.body.fechaI
         const fechaF = req.body.fechaF
         const idTipo = req.body.tipo
+        const administrador = req.body.idAdministrador
         
         const idString= lastId+1;
 
@@ -71,12 +72,12 @@ export const createObra = async  (req,res) =>{
         const resultado = await Obras.findAll({
             where:{nombreObra:nombre}
         })
-        //await ModelCategoria.create(req.body)
         if(resultado.length === 0){
             await Obras.create({idObra: lastId + 1, 
                 nombreObra: nombre,clienteObra:cliente,
                 direccionObra:direccion,fechaInicio:fechaI,
-                fechaFinal:fechaF,idTipoObra:idTipo,imagenObra:newname,estadoObra:1})
+                fechaFinal:fechaF,administrador:administrador, 
+                idTObra:idTipo,imagenObra:newname,estadoObra:1})
             res.json({
                 "message": "¡Registro creado correctamente!"
             })

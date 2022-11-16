@@ -31,19 +31,19 @@ export const getTipo =  async (req,res)=>{
 export const createTipo = async  (req,res) =>{
     try {
         const idTipo = await TipObra.findAll({
-            attributes:[[Sequelize.fn('MAX', Sequelize.col('idTObra')), 'maxId']],
+            attributes:[[Sequelize.fn('MAX', Sequelize.col('idTipoObra')), 'maxId']],
             raw: true,
         })
         const lastId = idTipo[0]["maxId"];   
-        const nombreTipo = req.body.nombreTObra
+        const nombreTipo = req.body.nombreTipoObra
 
         const resultado = await TipObra.findAll({
-            where:{nombreTObra:nombreTipo}
+            where:{nombreTipoObra:nombreTipo}
         })
         //await ModelCategoria.create(req.body)
         if(resultado.length === 0){
-            await TipObra.create({idTObra: lastId + 1, 
-                nombreTObra: nombreTipo,estadoTObra:1})
+            await TipObra.create({idTipoObra: lastId + 1, 
+                nombreTipoObra: nombreTipo,estadoTipoObra:1})
             res.json({
                 "message": "¡Registro creado correctamente!"
                 
@@ -62,14 +62,14 @@ export const createTipo = async  (req,res) =>{
 
 export const updateTipo =  async (req,res)=>{
     try{
-        const nombreTipo = req.body.nombreTObra
+        const nombreTipo = req.body.nombreTipoObra
         const resultado = await TipObra.findAll({
-            where:{nombreTObra:nombreTipo}
+            where:{nombreTipoObra:nombreTipo}
         })
         if(resultado.length === 0){
        await TipObra.update((req.body),{
             where:{
-                idTObra:req.params.id}
+                idTipoObra:req.params.id}
         })
         res.json({"message":"Registro modificado"})
         }else{
@@ -84,9 +84,9 @@ export const updateTipo =  async (req,res)=>{
 
 export const deleteTipo =  async (req,res)=>{
     try{
-       await TipObra.update({estadoTObra:0},{
+       await TipObra.update({estadoTipoObra:0},{
             where:{
-                idTObra:req.params.id}
+                idTipoObra:req.params.id}
         })
         res.json({"message":"registro eliminado"})
     } catch (error){
