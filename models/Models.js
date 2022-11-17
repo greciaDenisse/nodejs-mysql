@@ -107,7 +107,7 @@ export const ModelEmpleados = db.define('empleados',{
 
 //Salida Herramientas
 export const ModelSalidaHerramientas = db.define('salida_herramientas',{
-    idSalHer: {type: DataTypes.INTEGER},
+    idSalHer: {type: DataTypes.INTEGER,primaryKey:true},
     idHerramienta: {type: DataTypes.INTEGER},
     idObra: {type: DataTypes.INTEGER},
     idRecibe: {type: DataTypes.INTEGER},
