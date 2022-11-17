@@ -178,3 +178,16 @@ export const Unidades = db.define('unidades_materiales',{
     timestamps:false
 }
 )
+
+//salidas
+export const Salidas = db.define('salida_materiales',{
+    idSalMat:{type:DataTypes.INTEGER,primaryKey:true},
+    cantSalMat:{type: DataTypes.INTEGER},
+    fechaSalMat:{type: DataTypes.DATE},
+    flete:{type: DataTypes.BOOLEAN},
+    idMaterial:{type: DataTypes.INTEGER},
+    idObra:{type: DataTypes.INTEGER}
+},{
+    timestamps:false
+}
+)
