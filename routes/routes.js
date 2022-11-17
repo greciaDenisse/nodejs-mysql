@@ -12,6 +12,7 @@ import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from 
 import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.js";
 import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "../controllers/ControllerUnidad.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
+import { getAllSalidasHerramientas,createSalidaHerramientas } from '../controllers/ControllerSalidaHerramientas.js';
 
 const router = express.Router();
 
@@ -88,6 +89,10 @@ router.delete('/tiposObra/:id',deleteTipo)
 //Entradas
 router.get('/entradas/',getAllEntradas)
 router.post('/entradas/',createEntrada)
+
+//Salida de herramientas
+router.get('/salidaherramientas/',getAllSalidasHerramientas)
+router.post('/salidaherramientas/',createSalidaHerramientas)
 
 //Bodegas
 router.get('/bodegas/',getAllBodegas)

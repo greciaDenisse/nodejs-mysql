@@ -5,7 +5,7 @@ import db from "../database/db.js";
 export const getAllHerramientas = async (req, res) => {
     try{
         const herramientas = await  db.query(
-            'SELECT * FROM herramientas where estadoHer = 1',
+            'SELECT h.idHerramienta, h.codigoHer, h.nombreHer, m.nombreMarca, h.idCategoria, h.statusHer FROM herramientas h JOIN marcas_herramientas m ON h.idMarcaHer = m.idMarca where h.estadoHer = 1',
             {type: db.QueryTypes.SELECT}
         )
         res.json(herramientas)
