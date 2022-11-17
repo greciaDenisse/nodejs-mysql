@@ -12,11 +12,8 @@ import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from 
 import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.js";
 import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "../controllers/ControllerUnidad.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
-<<<<<<< HEAD
 import { materialesEntrada,createSalida } from '../controllers/ControllerSalida.js';
-=======
 import { getAllSalidasHerramientas,createSalidaHerramientas } from '../controllers/ControllerSalidaHerramientas.js';
->>>>>>> 5e281524cd8e741fcad37d089b4202d34054507f
 
 const router = express.Router();
 
