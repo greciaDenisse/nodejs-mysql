@@ -13,7 +13,10 @@ import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.j
 import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "../controllers/ControllerUnidad.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
 import { materialesEntrada,createSalida } from '../controllers/ControllerSalida.js';
-import { getAllSalidasHerramientas,createSalidaHerramientas } from '../controllers/ControllerSalidaHerramientas.js';
+import { getAllSalidasHerramientas,createSalidaHerramientas, getAllSalidaHerramienta } from '../controllers/ControllerSalidaHerramientas.js';
+import { getLista, createLista, deleteHer, deleteList} from '../controllers/ControllerCartHerramienta.js';
+import { getAllEntradasHerramientas, createEntradaHerramientas } from '../controllers/ControllerEntradaHerramientas.js';
+import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../controllers/ControllerCartHerramientasEntrada.js';
 
 const router = express.Router();
 
@@ -113,6 +116,19 @@ router.delete('/unidad/:id', deleteUnidad)
 //Salidas
 router.get('/materialesEntrada/:id', materialesEntrada)
 router.post('/salidas/', createSalida)
+
+//Cart Salida Herramientas
+router.get('/carther/', getLista)
+router.post('/carther/', createLista)
+router.put('/carther/:id', deleteHer)
+router.delete('/carther/', deleteList)
+
+//Cart Entrada Herramientas
+router.get('/cartenther/', getListaEnt)
+router.post('/cartenther/', createListaEnt)
+router.put('/cartenther/:id', deleteHerEnt)
+router.delete('/cartenther/', deleteListEnt)
+
 
 
 export default router;
