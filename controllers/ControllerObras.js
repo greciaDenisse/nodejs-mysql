@@ -110,6 +110,7 @@ export const updateObra =  async (req,res)=>{
         const cliente = req.body.cliente
         const fechaI = req.body.fechaI
         const fechaF = req.body.fechaF
+        const obraTipo = req.body.obraTipo
         //nuevo nombre
         const namefile =req.file.originalname
         const newname = 'obra-'+obraId.toString()+'.png'
@@ -124,7 +125,7 @@ export const updateObra =  async (req,res)=>{
         if(resultado.length === 0){
             await Obras.update({nombreObra:nombreObra,direccionObra:direccion,
                 clienteObra:cliente,
-                fechaInicio:fechaI,fechaFinal:fechaF,
+                fechaInicio:fechaI,fechaFinal:fechaF,idTObra:obraTipo,
                 imagenObra:newname},
                 {where:{idObra:req.params.id}}) 
         res.json({"message":"Registro modificado"})

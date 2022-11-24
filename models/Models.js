@@ -193,24 +193,15 @@ export const Unidades = db.define('unidades_materiales',{
 }
 )
 
-//Cart Salida Herramientas
-export const CartHerramientas = db.define('cart_herramientas',{
-    idCart: {type: DataTypes.INTEGER, primaryKey:true},
-    idObra: {type: DataTypes.INTEGER},
-    idHerramienta: {type: DataTypes.INTEGER},
-    codHerramienta: {type: DataTypes.STRING},
-    nomHerramienta: {type: DataTypes.STRING},
+//salidas
+export const Salidas = db.define('salida_materiales',{
+    idSalMat:{type:DataTypes.INTEGER,primaryKey:true},
+    cantSalMat:{type: DataTypes.INTEGER},
+    fechaSalMat:{type: DataTypes.DATE},
+    flete:{type: DataTypes.BOOLEAN},
+    idMaterial:{type: DataTypes.INTEGER},
+    idObra:{type: DataTypes.INTEGER}
 },{
     timestamps:false
-})
-
-//Cart Entrada Herramientas
-export const CartHerramientasEnt = db.define('cartentrada_herramientas',{
-    idCartEnt: {type: DataTypes.INTEGER, primaryKey:true},
-    idObra: {type: DataTypes.INTEGER},
-    idHerramienta: {type: DataTypes.INTEGER},
-    codHerramienta: {type: DataTypes.STRING},
-    nomHerramienta: {type: DataTypes.STRING},
-},{
-    timestamps:false
-})
+}
+)

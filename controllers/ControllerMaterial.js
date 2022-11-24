@@ -23,8 +23,10 @@ export const getMatActivo = async (req,res) => {
             res.json({message:error.message})
     }
 }
-
+//SELECT SUM(cantEntMat) As TotalMat, e.idMaterial, m.nombreMat from entrada_materiales e JOIN materiales m ON e.idMaterial = m.idMaterial GROUP BY idMaterial;
 //mostrar un registro
+//SELECT cantEntMat,idMaterial,idObra FROM `entrada_materiales` WHERE idObra=1;
+
 
 export const getMat =  async (req,res)=>{
     try{
