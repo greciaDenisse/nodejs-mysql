@@ -16,6 +16,8 @@ export const getAllHerramientas = async (req, res) => {
 
 export const getHerramienta = async (req, res) => {
     try{
+        const id = req.params.id
+        console.log(id)
         const herramienta = await ModelHerramientas.findAll({
             where:{idHerramienta:req.params.id}
         })

@@ -114,11 +114,25 @@ export const ModelSalidaHerramientas = db.define('salida_herramientas',{
     idEntrega: {type: DataTypes.INTEGER},
     horaSalHer: {type: DataTypes.TIME},
     fechaSalHer: {type: DataTypes.DATE},
+    estadoSal: {type: DataTypes.STRING},
 },{
     timestamps: false
 })
-//Entradas
 
+//Entrada Herramientas
+export const ModelEntradaHerramientas = db.define('entrada_herramientas',{
+    idEntHer: {type: DataTypes.INTEGER,primaryKey:true},
+    idHerramienta: {type: DataTypes.INTEGER},
+    idObra: {type: DataTypes.INTEGER},
+    idEntrega: {type: DataTypes.INTEGER},
+    idRecibe: {type: DataTypes.INTEGER},
+    horaEntHer: {type: DataTypes.TIME},
+    fechaEntHer: {type: DataTypes.DATE},
+},{
+    timestamps: false
+})
+
+//Entradas
 export const Entrada = db.define('entrada_materiales',{
     idEntMat:{type:DataTypes.INTEGER,primaryKey:true},
     cantEntMat:{type: DataTypes.INTEGER},
@@ -178,3 +192,25 @@ export const Unidades = db.define('unidades_materiales',{
     timestamps:false
 }
 )
+
+//Cart Salida Herramientas
+export const CartHerramientas = db.define('cart_herramientas',{
+    idCart: {type: DataTypes.INTEGER, primaryKey:true},
+    idObra: {type: DataTypes.INTEGER},
+    idHerramienta: {type: DataTypes.INTEGER},
+    codHerramienta: {type: DataTypes.STRING},
+    nomHerramienta: {type: DataTypes.STRING},
+},{
+    timestamps:false
+})
+
+//Cart Entrada Herramientas
+export const CartHerramientasEnt = db.define('cartentrada_herramientas',{
+    idCartEnt: {type: DataTypes.INTEGER, primaryKey:true},
+    idObra: {type: DataTypes.INTEGER},
+    idHerramienta: {type: DataTypes.INTEGER},
+    codHerramienta: {type: DataTypes.STRING},
+    nomHerramienta: {type: DataTypes.STRING},
+},{
+    timestamps:false
+})
