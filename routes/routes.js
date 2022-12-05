@@ -13,9 +13,12 @@ import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.j
 import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "../controllers/ControllerUnidad.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
 import { createSalida,getAllSalidas, stock} from '../controllers/ControllerSalida.js';
-import { getAllSalidasHerramientas,createSalidaHerramientas } from '../controllers/ControllerSalidaHerramientas.js';
 import { createCarritoMat,getAllCarritoMat } from '../controllers/ControllerCarritoMat.js';
 import { getAllPrestamos,createPrestamo } from '../controllers/ControllerPrestamo.js';
+import { getAllSalidasHerramientas,createSalidaHerramientas, getAllSalidaHerramienta } from '../controllers/ControllerSalidaHerramientas.js';
+import { getLista, createLista, deleteHer, deleteList} from '../controllers/ControllerCartHerramienta.js';
+import { getAllEntradasHerramientas, createEntradaHerramientas } from '../controllers/ControllerEntradaHerramientas.js';
+import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../controllers/ControllerCartHerramientasEntrada.js';
 
 const router = express.Router();
 
@@ -94,8 +97,13 @@ router.get('/entradas/',getAllEntradas)
 router.post('/entradas/',createEntrada)
 
 //Salida de herramientas
-router.get('/salidaherramientas/',getAllSalidasHerramientas)
+router.get('/salidaherramientas/:id',getAllSalidasHerramientas)
 router.post('/salidaherramientas/',createSalidaHerramientas)
+router.get('/herramientasalida/:id',getAllSalidaHerramienta)
+
+//Entrada de herramientas
+router.get('/entradaherramientas/:id',getAllEntradasHerramientas)
+router.post('/entradaherramientas/',createEntradaHerramientas)
 
 //Bodegas
 router.get('/bodegas/',getAllBodegas)
@@ -115,5 +123,18 @@ router.get('/salidas/:id', getAllSalidas)
 //prestamos
 router.get('/prestamos/', getAllPrestamos)
 router.post('/prestamos/',createPrestamo)
+//Cart Salida Herramientas
+router.get('/carther/', getLista)
+router.post('/carther/', createLista)
+router.put('/carther/:id', deleteHer)
+router.delete('/carther/:id/obra/:ido', deleteList)
+
+//Cart Entrada Herramientas
+router.get('/cartenther/', getListaEnt)
+router.post('/cartenther/', createListaEnt)
+router.put('/cartenther/:id', deleteHerEnt)
+router.delete('/cartenther/', deleteListEnt)
+
+
 
 export default router;
