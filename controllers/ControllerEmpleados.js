@@ -57,6 +57,8 @@ export const createEmpleado = async (req, res) => {
         const resultado = await ModelEmpleados.findAll({
             where:{codigoEmp:codEmp}
         })
+
+        console.log(codEmp)
         
         if(resultado.length === 0){
             await ModelEmpleados.create({idEmpleado: lastId + 1,
