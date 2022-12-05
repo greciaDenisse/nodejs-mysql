@@ -1,4 +1,4 @@
-import { ModelEntradaHerramientas, CartHerramientasEnt, ModelHerramientas } from "../models/Models.js";
+import { ModelEntradaHerramientas, ModelSalidaHerramientas, ModelHerramientas } from "../models/Models.js";
 import db from "../database/db.js";
 import { Sequelize } from "sequelize";
 import moment from "moment/moment.js";
@@ -21,7 +21,42 @@ export const createEntradaHerramientas = async (req, res) => {
         const obra = req.body.idObra
         const recibe = req.body.idRecibe
         const entrega =req.body.idEntrega
-        const lista = await db.query(
+        const lista = JSON.parse(req.body.lista)
+
+        for (let i = 0; i < lista.length; i++){
+            if(lista[i].danL === "si"){
+                await ModelHerramientas.update({statusHer:"en mantenimiento", observacionHer:lista[i].notaL}, {
+                    where:{idHerramienta:lista[i].idL}
+                })
+                console.log("Estado modificado")
+            }else{
+                await ModelHerramientas.update({statusHer:"disponible"}, {
+                    where:{idHerramienta:lista[i].idL}
+                })
+                console.log("Estado modificado")
+            }
+            
+            const idEH = await ModelEntradaHerramientas.findAll({
+                attributes:[[Sequelize.fn('MAX', Sequelize.col('idEntHer')), 'maxId']],
+                raw: true,
+            })
+            const lastId = idEH[0]["maxId"];
+            const hora = moment().locale('zh-mx').format('HH:mm:ss');
+            const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+            await ModelEntradaHerramientas.create({
+                idEntHer: lastId + 1, idHerramienta: lista[i].idL,
+                idObra: obra, idEntrega:entrega, idRecibe: recibe, 
+                horaEntHer: hora, fechaEntHer: fecha
+            })
+            console.log("Herramienta agregada a entradas")
+            await ModelSalidaHerramientas.update({estadoSal:"devuelto"}, {
+                where:{idSalHer:lista[i].idsL}
+            })
+        }
+        res.json({
+            "message": "¡Herramientas agregadas!"
+        })
+        /*const lista = await db.query(
             `SELECT idHerramienta FROM cartentrada_herramientas WHERE idObra = ${obra} `,
             {type: db.QueryTypes.SELECT}
         )
@@ -47,7 +82,7 @@ export const createEntradaHerramientas = async (req, res) => {
         await CartHerramientasEnt.destroy({truncate: true})
         res.json({
             "message": "¡Herramientas agregadas!"
-        })
+        })*/
     }catch (error){
         res.json({message: error.message})
     }

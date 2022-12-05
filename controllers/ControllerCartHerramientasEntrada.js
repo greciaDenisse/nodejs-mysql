@@ -13,10 +13,11 @@ export const getListaEnt = async (req,res) => {
 
 export const createListaEnt = async (req,res) =>{
     try{
-        const idOb = req.body.idObra
+       const idOb = req.body.idObra
         const idH = req.body.idHer
         const codH = req.body.codHer
         const nomH = req.body.nomHer
+        const obsH = req.body.observacion
         const idList = await CartHerramientasEnt.findAll({
             attributes:[[Sequelize.fn('MAX', Sequelize.col('idCartEnt')), 'maxId']],
             raw: true,
@@ -24,12 +25,12 @@ export const createListaEnt = async (req,res) =>{
         const lastId = idList[0]["maxId"];
         await CartHerramientasEnt.create({idCartEnt: lastId + 1, 
             idObra: idOb, idHerramienta:idH, codHerramienta:codH,
-            nomHerramienta:nomH
+            nomHerramienta:nomH, observacion: obsH
         })
         await ModelSalidaHerramientas.update({estadoSal:"devuelto"}, {
             where:{idHerramienta:idH}
         })
-        console.log("Estado modificado") 
+        console.log("Estado modificado")
         res.json({
             "message": "¡Herramienta agregada!"
         })

@@ -100,55 +100,60 @@ export const createObra = async  (req,res) =>{
 export const updateObra =  async (req,res)=>{
     try{
         if(req.body.nombreObra === undefined){
-        const resultadoId = await Obras.findAll({
-                where:{idObra:req.params.id}
-            })
-        const obraId=resultadoId[0].idObra
-
-        const nombreObra = req.body.name
-        const direccion = req.body.direccion
-        const cliente = req.body.cliente
-        const fechaI = req.body.fechaI
-        const fechaF = req.body.fechaF
-        const obraTipo = req.body.obraTipo
-        //nuevo nombre
-        const namefile =req.file.originalname
-        const newname = 'obra-'+obraId.toString()+'.png'
-
-        rename('./images/'+namefile, './images/'+newname, (err) => {
-            if (err) throw err;
-        });
-
-        const resultado = await Obras.findAll({
-            where:{nombreObra:nombreObra}
-        })
-        if(resultado.length === 0){
-            await Obras.update({nombreObra:nombreObra,direccionObra:direccion,
-                clienteObra:cliente,
-                fechaInicio:fechaI,fechaFinal:fechaF,idTObra:obraTipo,
-                imagenObra:newname},
-                {where:{idObra:req.params.id}}) 
-        res.json({"message":"Registro modificado"})
-        }else{
-            if(resultado[0].dataValues.nombreObra === nombreObra){
-                await Obras.update({imagenObra:newname}, {
+            const resultadoId = await Obras.findAll({
                     where:{idObra:req.params.id}
-                })        
-                res.json({
-                    "message": "¡Registro actualizado correctamente!"
                 })
+            const obraId=resultadoId[0].idObra
+
+            const nombreObra = req.body.name
+            const direccion = req.body.direccion
+            const cliente = req.body.cliente
+            const fechaI = req.body.fechaI
+            const fechaF = req.body.fechaF
+            const obraTipo = req.body.obraTipo
+            //nuevo nombre
+            const namefile =req.file.originalname
+            const newname = 'obra-'+obraId.toString()+'.png'
+
+            rename('./images/'+namefile, './images/'+newname, (err) => {
+                if (err) throw err;
+            });
+
+            const resultado = await Obras.findAll({
+                where:{nombreObra:nombreObra}
+            })
+            if(resultado.length === 0){
+                await Obras.update({nombreObra:nombreObra,direccionObra:direccion,
+                    clienteObra:cliente,
+                    fechaInicio:fechaI,fechaFinal:fechaF,idTObra:obraTipo,
+                    imagenObra:newname},
+                    {where:{idObra:req.params.id}}) 
+                res.json({"message":"Registro modificado"})
             }else{
-                res.json({
-                    "message": "Ya existe"
-                })
-                unlink('./images/'+newname, (err) => {
-                    if (err) throw err;
-                    console.log('Image was deleted');
-                });
+                if(resultado[0].dataValues.nombreObra === nombreObra){
+                    await Obras.update({imagenObra:newname}, {
+                        where:{idObra:req.params.id}
+                    })        
+                    res.json({
+                        "message": "¡Registro actualizado correctamente!"
+                    })
+                }else{
+                    res.json({
+                        "message": "Ya existe"
+                    })
+                    unlink('./images/'+newname, (err) => {
+                        if (err) throw err;
+                        console.log('Image was deleted');
+                    });
+                }
             }
-        }
         }else{
             const nombreObras = req.body.nombreObra
+            const direccion = req.body.direccionObra
+            const cliente = req.body.clienteObra
+            const fechaI = req.body.fechaInicio
+            const fechaF = req.body.fechaFinal
+            const obraTipo = req.body.idTObra
             const resultado1 = await Obras.findAll({
                 where:{nombreObra:nombreObras}
             })
@@ -160,9 +165,21 @@ export const updateObra =  async (req,res)=>{
                     "message": "¡Registro actualizado correctamente!"
                 })
             }else{
-                res.json({
-                    "message": "Ya existe"
-                })
+                if(resultado1[0].dataValues.nombreObra === nombreObras){
+                     const res = await Obras.update({direccionObra:direccion,
+                        clienteObra:cliente,
+                        fechaInicio:fechaI,fechaFinal:fechaF,idTObra:obraTipo},
+                        {where:{idObra:req.params.id}}) 
+                        console.log(res)
+                    res.json({
+                        "message": "¡Registro actualizado correctamente!"
+                    })
+                }else{
+                    res.json({
+                        "message": "Ya existe"
+                    })
+                }
+                
             }
 
         }

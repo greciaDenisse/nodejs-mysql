@@ -13,7 +13,11 @@ export const getLista = async (req,res) => {
 
 export const createLista = async (req,res) =>{
     try{
-        const idOb = req.body.idObra
+        console.log(req.body.lista)
+        const lista = JSON.parse(req.body.lista) 
+        console.log(lista)
+        console.log(req.body.obra)
+        /*const idOb = req.body.idObra
         const idH = req.body.idHer
         const codH = req.body.codHer
         const nomH = req.body.nomHer
@@ -29,7 +33,7 @@ export const createLista = async (req,res) =>{
         await ModelHerramientas.update({statusHer:"no disponible"}, {
             where:{idHerramienta:idH}
         })
-        console.log("Estado modificado") 
+        console.log("Estado modificado")*/ 
         res.json({
             "message": "¡Herramienta agregada!"
         })
@@ -57,7 +61,14 @@ export const deleteHer = async (req,res) =>{
 }
 
 export const deleteList = async (req,res) =>{
-    try{        
+    try{
+        console.log(req.params.id,req.params.ido)
+        await CartHerramientas.update({nomHerramienta:"new"},{
+            where:{idCart:req.params.id, idObra:req.params.ido}
+        })
+        /*await CartHerramientas.destroy({
+            where:{idCart:req.params.id, idObra:req.params.ido}
+        })
         const lista = await CartHerramientas.findAll()
         console.log(lista.length)
         const arrayIdHer = []       
@@ -71,7 +82,7 @@ export const deleteList = async (req,res) =>{
             })
            console.log("Estado modificado")            
         }
-        await CartHerramientas.destroy({truncate: true})
+        await CartHerramientas.destroy({truncate: true})*/
         res.json({
             "message": "¡Lista eliminada!"
         })

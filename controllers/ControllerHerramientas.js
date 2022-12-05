@@ -5,7 +5,7 @@ import db from "../database/db.js";
 export const getAllHerramientas = async (req, res) => {
     try{
         const herramientas = await  db.query(
-            'SELECT h.idHerramienta, h.codigoHer, h.nombreHer, m.nombreMarca, h.idCategoria, h.statusHer FROM herramientas h JOIN marcas_herramientas m ON h.idMarcaHer = m.idMarca where h.estadoHer = 1',
+            'SELECT h.idHerramienta, h.codigoHer, h.nombreHer, h.idCategoria, h.statusHer, h.observacionHer FROM herramientas h where h.estadoHer = 1',
             {type: db.QueryTypes.SELECT}
         )
         res.json(herramientas)
@@ -71,32 +71,51 @@ export const updateHerramienta = async (req, res) => {
         })
         
         if(resultado.length === 0){
-            await ModelHerramientas.update(req.body, {
-                where:{idHerramienta:req.params.id}
-            })        
-            res.json({
-                "message": "¡Registro actualizado correctamente!"
-            })
-        }else{
-            const resul = await ModelHerramientas.findAll({
-                where:{idHerramienta:req.params.id}
-            })
-            if(resul[0].dataValues.codigoHer === codigo){
-                await ModelHerramientas.update({nombreHer:nombre,idMarcaHer:marca,statusHer:estado}, {
+            if(estado === "disponible"){
+                await ModelHerramientas.update(req.body, {
+                    where:{idHerramienta:req.params.id}
+                })
+                await ModelHerramientas.update({observacionHer:null}, {
+                    where:{idHerramienta:req.params.id}
+                }) 
+                res.json({
+                    "message": "¡Registro actualizado correctamente!"
+                })
+            }else{
+                await ModelHerramientas.update(req.body, {
                     where:{idHerramienta:req.params.id}
                 })        
                 res.json({
                     "message": "¡Registro actualizado correctamente!"
                 })
+            }
+            
+        }else{
+            const resul = await ModelHerramientas.findAll({
+                where:{idHerramienta:req.params.id}
+            })
+            if(resul[0].dataValues.codigoHer === codigo){
+                if(estado === "disponible"){
+                    await ModelHerramientas.update({nombreHer:nombre,idMarcaHer:marca,statusHer:estado,observacionHer:null}, {
+                        where:{idHerramienta:req.params.id}
+                    })
+                    res.json({
+                        "message": "¡Registro actualizado correctamente!"
+                    })
+                }else{
+                    await ModelHerramientas.update({nombreHer:nombre,idMarcaHer:marca,statusHer:estado}, {
+                        where:{idHerramienta:req.params.id}
+                    })
+                    res.json({
+                        "message": "¡Registro actualizado correctamente!"
+                    })
+                }
             }else{
                 res.json({
                     "message": "Ya existe"
                 })
             }
-                
-            
         }
-        
     } catch (error){
         res.json({message: error.message})
     }

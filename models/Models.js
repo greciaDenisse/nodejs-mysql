@@ -78,6 +78,7 @@ export const ModelHerramientas = db.define('herramientas',{
     idMarcaHer: {type: DataTypes.INTEGER},
     idCategoria: {type: DataTypes.INTEGER},
     statusHer: {type: DataTypes.STRING},
+    observacionHer:{type: DataTypes.STRING},
     estadoHer: {type: DataTypes.BOOLEAN},
 },{
     timestamps: false
@@ -224,6 +225,7 @@ export const CartHerramientasEnt = db.define('cartentrada_herramientas',{
     idHerramienta: {type: DataTypes.INTEGER},
     codHerramienta: {type: DataTypes.STRING},
     nomHerramienta: {type: DataTypes.STRING},
+    observacion: {type: DataTypes.STRING},
 },{
     timestamps:false
 })

@@ -121,7 +121,7 @@ router.post('/salidas/', createSalida)
 router.get('/carther/', getLista)
 router.post('/carther/', createLista)
 router.put('/carther/:id', deleteHer)
-router.delete('/carther/', deleteList)
+router.delete('/carther/:id/obra/:ido', deleteList)
 
 //Cart Entrada Herramientas
 router.get('/cartenther/', getListaEnt)
