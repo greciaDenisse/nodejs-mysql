@@ -65,6 +65,7 @@ export const createSalida = async  (req,res) =>{
     //console.log("Body de la respuesta : ",req.body);
     const materials = JSON.parse(req.body.listaCarrito);
     const numObra = req.body.idObra;
+    const fecha = req.body.fecha;
     //console.log(materials)
     //console.log(numObra)
    
@@ -78,7 +79,7 @@ export const createSalida = async  (req,res) =>{
             const lastId = salidaId[0]["maxId"];  
 
             await Salidas.create({idSalMat: lastId + 1, 
-                cantSalMat:materials[i].cantidad,fechaSalMat:null,
+                cantSalMat:materials[i].cantidad,fechaSalMat:fecha,
                 flete:0,idMaterial:materials[i].idMaterial,idObra:numObra,
                 estadoSalida:1})
         

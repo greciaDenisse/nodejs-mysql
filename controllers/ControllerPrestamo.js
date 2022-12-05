@@ -21,7 +21,7 @@ export const createPrestamo = async  (req,res) =>{
     const carrito = JSON.parse(req.body.listaCarrito);
     const numObraOriginal = req.body.idObraOriginal;
     const numObraNueva = req.body.idObraNueva;
-
+    const fecha = req.body.fecha;
     //console.log(materials)
     console.log(numObraOriginal)
     console.log(numObraNueva)
@@ -36,7 +36,7 @@ export const createPrestamo = async  (req,res) =>{
             const lastId = salidaId[0]["maxId"];  
 
            await Salidas.create({idSalMat: lastId + 1, 
-                cantSalMat: carrito[i].cantidad,fechaSalMat:null,
+                cantSalMat: carrito[i].cantidad,fechaSalMat:fecha,
                 flete:0,idMaterial:carrito[i].idMaterial,idObra:numObraOriginal,
                 estadoSalida:0})
             
@@ -61,7 +61,7 @@ export const createPrestamo = async  (req,res) =>{
 
             await Entrada.create({idEntMat: lastEntrada+ 1,cantEntMat:carrito[i].cantidad,
                 precioUni:precioFinal,idMaterial:carrito[i].idMaterial,
-                idObra:numObraNueva,idBodega:bodegaFinal,fechaEntMat:null})
+                idObra:numObraNueva,idBodega:bodegaFinal,fechaEntMat:fecha})
             //segunda salida (nueva obra)
 
             const resultado2 = await Materiales.findAll({
