@@ -20,6 +20,8 @@ import { getLista, createLista, deleteHer, deleteList} from '../controllers/Cont
 import { getAllEntradasHerramientas, createEntradaHerramientas } from '../controllers/ControllerEntradaHerramientas.js';
 import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../controllers/ControllerCartHerramientasEntrada.js';
 import { devolver } from '../controllers/ControllerDevolver.js';
+import { updatePin } from '../controllers/ControllerPinEmpleado.js';
+import { getAllManoObra, createPersonal, getPersonal, deletePersonal } from '../controllers/ControllerManoObra.js';
 
 const router = express.Router();
 
@@ -140,6 +142,14 @@ router.delete('/cartenther/', deleteListEnt)
 
 //devolver
 router.put('/devolver/:id', devolver)
+//Pin
+router.put('/pin/:id',updatePin)
+
+//Mano de obra
+router.get('/mano-obra/', getAllManoObra)
+router.get('/mano-obra/:id',getPersonal)
+router.post('/mano-obra/', createPersonal)
+router.delete('/mano-obra/:ido/emp/:ide', deletePersonal)
 
 
 export default router;
