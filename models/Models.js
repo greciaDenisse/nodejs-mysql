@@ -141,7 +141,7 @@ export const Entrada = db.define('entrada_materiales',{
     precioUni:{type: DataTypes.DOUBLE},
     fechaEntMat:{type: DataTypes.DATE},
     idObra:{type: DataTypes.INTEGER},
-    estadoEntradsa:{type: DataTypes.BOOLEAN},
+    estadoEntrada:{type: DataTypes.BOOLEAN},
     idMaterial:{type: DataTypes.INTEGER},
     idBodega:{type: DataTypes.INTEGER}
 },{
@@ -216,7 +216,8 @@ export const Prestamos = db.define('prestamos',{
     obraOriginal:{type: DataTypes.INTEGER},
     obraNueva:{type: DataTypes.INTEGER},
     idMaterial:{type: DataTypes.INTEGER},
-    cantSalMat:{type: DataTypes.INTEGER}
+    cantSalMat:{type: DataTypes.INTEGER},
+    idEntMat:{type: DataTypes.INTEGER}
 },{
     timestamps:false
 }

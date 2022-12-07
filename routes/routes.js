@@ -14,11 +14,12 @@ import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
 import { createSalida,getAllSalidas, stock} from '../controllers/ControllerSalida.js';
 import { createCarritoMat,getAllCarritoMat } from '../controllers/ControllerCarritoMat.js';
-import { getAllPrestamos,createPrestamo } from '../controllers/ControllerPrestamo.js';
+import { getAllPrestamos,createPrestamo , getPrestamo} from '../controllers/ControllerPrestamo.js';
 import { getAllSalidasHerramientas,createSalidaHerramientas, getAllSalidaHerramienta } from '../controllers/ControllerSalidaHerramientas.js';
 import { getLista, createLista, deleteHer, deleteList} from '../controllers/ControllerCartHerramienta.js';
 import { getAllEntradasHerramientas, createEntradaHerramientas } from '../controllers/ControllerEntradaHerramientas.js';
 import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../controllers/ControllerCartHerramientasEntrada.js';
+import { devolver } from '../controllers/ControllerDevolver.js';
 
 const router = express.Router();
 
@@ -123,6 +124,8 @@ router.get('/salidas/:id', getAllSalidas)
 //prestamos
 router.get('/prestamos/', getAllPrestamos)
 router.post('/prestamos/',createPrestamo)
+router.get('/prestamos/:id', getPrestamo)
+
 //Cart Salida Herramientas
 router.get('/carther/', getLista)
 router.post('/carther/', createLista)
@@ -135,6 +138,8 @@ router.post('/cartenther/', createListaEnt)
 router.put('/cartenther/:id', deleteHerEnt)
 router.delete('/cartenther/', deleteListEnt)
 
+//devolver
+router.put('/devolver/:id', devolver)
 
 
 export default router;

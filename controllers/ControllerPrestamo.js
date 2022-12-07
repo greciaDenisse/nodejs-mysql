@@ -7,10 +7,21 @@ import db from "../database/db.js";
 export const getAllPrestamos = async (req,res) => {
     try{
         const prestamos = await db.query(
-            'SELECT o.nombreObra as original,ob.nombreObra as nueva, m.nombreMat,p.cantSalMat from prestamos p JOIN materiales m ON m.idMaterial=p.idMaterial JOIN obras o ON  o.idObra=p.obraOriginal JOIN obras ob ON ob.idObra = p.obraNueva',
+            'SELECT o.nombreObra as original,ob.nombreObra as nueva,p.idMaterial, m.nombreMat,p.idEntMat,p.idPrestamo,p.cantSalMat from prestamos p JOIN materiales m ON m.idMaterial=p.idMaterial JOIN obras o ON  o.idObra=p.obraOriginal JOIN obras ob ON ob.idObra = p.obraNueva where p.cantSalMat>0',
             {type: db.QueryTypes.SELECT}
         )
         res.json(prestamos)
+    } catch (error){
+        res.json({message: error.message})
+    }
+}
+
+export const getPrestamo = async (req, res) => {
+    try{
+        const prestamo = await Prestamos.findAll({
+            where:{idPrestamo:req.params.id}
+        })
+        res.json(prestamo[0])
     } catch (error){
         res.json({message: error.message})
     }
@@ -60,11 +71,11 @@ export const createPrestamo = async  (req,res) =>{
             const lastEntrada = idEntrada[0]["maxId"]; 
 
             await Entrada.create({idEntMat: lastEntrada+ 1,cantEntMat:carrito[i].cantidad,
-                precioUni:precioFinal,idMaterial:carrito[i].idMaterial,
+                precioUni:precioFinal,idMaterial:carrito[i].idMaterial,estadoEntrada:1,
                 idObra:numObraNueva,idBodega:bodegaFinal,fechaEntMat:fecha})
             //segunda salida (nueva obra)
 
-            const resultado2 = await Materiales.findAll({
+            {/*const resultado2 = await Materiales.findAll({
                 where:{idMaterial: carrito[i].idMaterial}
             })
             //console.log("stock:  "+resultado[0].stockMat + " idMat " + resultado[0].idMaterial)
@@ -77,18 +88,18 @@ export const createPrestamo = async  (req,res) =>{
             await Materiales.update({stockMat:stockFinal2},{
                     where:{
                     idMaterial: carrito[i].idMaterial}
-            })
+            })*/}
 
             const prestamoId = await Prestamos.findAll({
                 attributes:[[Sequelize.fn('MAX', Sequelize.col('idPrestamo')), 'maxId']],
                 raw: true,
             })
             const lastIdPrestamo = prestamoId[0]["maxId"];  
-
+            console.log(lastEntrada)
            await Prestamos.create({idPrestamo: lastIdPrestamo + 1, 
                 cantSalMat: carrito[i].cantidad,
                 idMaterial:carrito[i].idMaterial,obraOriginal:numObraOriginal,
-                obraNueva:numObraNueva})
+                obraNueva:numObraNueva,idEntMat:lastEntrada+1})
             //console.log("registrado")
         }
         res.json({
