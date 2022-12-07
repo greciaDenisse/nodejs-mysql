@@ -17,6 +17,8 @@ import { getAllSalidasHerramientas,createSalidaHerramientas, getAllSalidaHerrami
 import { getLista, createLista, deleteHer, deleteList} from '../controllers/ControllerCartHerramienta.js';
 import { getAllEntradasHerramientas, createEntradaHerramientas } from '../controllers/ControllerEntradaHerramientas.js';
 import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../controllers/ControllerCartHerramientasEntrada.js';
+import { updatePin } from '../controllers/ControllerPinEmpleado.js';
+import { getAllManoObra, createPersonal, getPersonal, deletePersonal } from '../controllers/ControllerManoObra.js';
 
 const router = express.Router();
 
@@ -129,6 +131,14 @@ router.post('/cartenther/', createListaEnt)
 router.put('/cartenther/:id', deleteHerEnt)
 router.delete('/cartenther/', deleteListEnt)
 
+//Pin
+router.put('/pin/:id',updatePin)
+
+//Mano de obra
+router.get('/mano-obra/', getAllManoObra)
+router.get('/mano-obra/:id',getPersonal)
+router.post('/mano-obra/', createPersonal)
+router.delete('/mano-obra/:ido/emp/:ide', deletePersonal)
 
 
 export default router;

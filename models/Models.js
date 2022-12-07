@@ -97,6 +97,7 @@ export const ModelEmpleados = db.define('empleados',{
     sexoEmp: {type: DataTypes.CHAR},
     sueldoEmp: {type: DataTypes.DOUBLE},
     seguroEmp:{type: DataTypes.CHAR},
+    pinEmp:{type: DataTypes.STRING},
     idArea: {type: DataTypes.INTEGER},
     idPuesto: {type: DataTypes.INTEGER},
     idJefe: {type: DataTypes.INTEGER},
@@ -226,6 +227,14 @@ export const CartHerramientasEnt = db.define('cartentrada_herramientas',{
     codHerramienta: {type: DataTypes.STRING},
     nomHerramienta: {type: DataTypes.STRING},
     observacion: {type: DataTypes.STRING},
+},{
+    timestamps:false
+})
+
+//Mano de Obra
+export const ManoObra = db.define('obra_empleados',{
+    idObra: {type: DataTypes.INTEGER, primaryKey:true},
+    idEmpleado: {type: DataTypes.INTEGER, primaryKey:true},
 },{
     timestamps:false
 })

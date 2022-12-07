@@ -69,6 +69,7 @@ export const createEmpleado = async (req, res) => {
                 sexoEmp: sexEm,
                 sueldoEmp: sueldoEm,
                 seguroEmp: seguroEm,
+                pinEmp:"1111",
                 idArea: idAre,
                 idPuesto: idPue,
                 idJefe: idJef,
@@ -102,6 +103,7 @@ export const updateEmpleado = async (req, res) => {
         const idPue = req.body.idPuesto
         const idJef = req.body.idJefe
         const codJef = req.body.codigoJefe
+        const pin = req.body.pinEmp
         const nombre = nombreEm.substring(0,3)
         const fecha = moment(fechaNacEm).format("DDMMYY")
         const nompu = await ModelPuestos.findAll({
@@ -125,6 +127,7 @@ export const updateEmpleado = async (req, res) => {
                 sexoEmp: sexEm,
                 sueldoEmp: sueldoEm,
                 seguroEmp: seguroEm,
+                pinEmp: pin,
                 idArea: idAre,
                 idPuesto: idPue,
                 idJefe: idJef,
@@ -150,6 +153,7 @@ export const updateEmpleado = async (req, res) => {
                     sexoEmp: sexEm,
                     sueldoEmp: sueldoEm,
                     seguroEmp: seguroEm,
+                    pinEmp: pin,
                     idArea: idAre,
                     idPuesto: idPue,
                     idJefe: idJef,
