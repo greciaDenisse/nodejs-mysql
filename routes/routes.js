@@ -12,7 +12,9 @@ import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from 
 import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.js";
 import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "../controllers/ControllerUnidad.js";
 import { getAllBodegas } from "../controllers/ControllerBodega.js";
-import { materialesEntrada,createSalida } from '../controllers/ControllerSalida.js';
+import { createSalida,getAllSalidas, stock} from '../controllers/ControllerSalida.js';
+import { createCarritoMat,getAllCarritoMat } from '../controllers/ControllerCarritoMat.js';
+import { getAllPrestamos,createPrestamo } from '../controllers/ControllerPrestamo.js';
 import { getAllSalidasHerramientas,createSalidaHerramientas, getAllSalidaHerramienta } from '../controllers/ControllerSalidaHerramientas.js';
 import { getLista, createLista, deleteHer, deleteList} from '../controllers/ControllerCartHerramienta.js';
 import { getAllEntradasHerramientas, createEntradaHerramientas } from '../controllers/ControllerEntradaHerramientas.js';
@@ -116,9 +118,13 @@ router.put('/unidad/:id', updateUnidad)
 router.delete('/unidad/:id', deleteUnidad)
 
 //Salidas
-router.get('/materialesEntrada/:id', materialesEntrada)
+router.get('/materialesEntrada/:id', stock)
 router.post('/salidas/', createSalida)
+router.get('/salidas/:id', getAllSalidas)
 
+//prestamos
+router.get('/prestamos/', getAllPrestamos)
+router.post('/prestamos/',createPrestamo)
 //Cart Salida Herramientas
 router.get('/carther/', getLista)
 router.post('/carther/', createLista)

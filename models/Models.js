@@ -120,6 +120,7 @@ export const ModelSalidaHerramientas = db.define('salida_herramientas',{
 },{
     timestamps: false
 })
+//EntradasMateriales
 
 //Entrada Herramientas
 export const ModelEntradaHerramientas = db.define('entrada_herramientas',{
@@ -141,6 +142,7 @@ export const Entrada = db.define('entrada_materiales',{
     precioUni:{type: DataTypes.DOUBLE},
     fechaEntMat:{type: DataTypes.DATE},
     idObra:{type: DataTypes.INTEGER},
+    estadoEntradsa:{type: DataTypes.BOOLEAN},
     idMaterial:{type: DataTypes.INTEGER},
     idBodega:{type: DataTypes.INTEGER}
 },{
@@ -195,12 +197,12 @@ export const Unidades = db.define('unidades_materiales',{
 }
 )
 
-//salidas
+//salidasMateriales
 export const Salidas = db.define('salida_materiales',{
     idSalMat:{type:DataTypes.INTEGER,primaryKey:true},
     cantSalMat:{type: DataTypes.INTEGER},
     fechaSalMat:{type: DataTypes.DATE},
-    flete:{type: DataTypes.BOOLEAN},
+    estadoSalida:{type: DataTypes.BOOLEAN},
     idMaterial:{type: DataTypes.INTEGER},
     idObra:{type: DataTypes.INTEGER}
 },{
@@ -208,6 +210,31 @@ export const Salidas = db.define('salida_materiales',{
 }
 )
 
+//prestamos 
+
+export const Prestamos = db.define('prestamos',{
+    idPrestamo:{type:DataTypes.INTEGER,primaryKey:true},
+    obraOriginal:{type: DataTypes.INTEGER},
+    obraNueva:{type: DataTypes.INTEGER},
+    idMaterial:{type: DataTypes.INTEGER},
+    cantSalMat:{type: DataTypes.INTEGER}
+},{
+    timestamps:false
+}
+)
+
+//carrito_salida_materiales
+export const CarritoSalidaMat = db.define('carSalida_materiales',{
+    idCar:{type:DataTypes.INTEGER,primaryKey:true},
+    idObraOriginal:{type: DataTypes.INTEGER},
+    idObraNueva:{type: DataTypes.INTEGER},
+    idMaterial:{type: DataTypes.INTEGER},
+    nombreMat:{type: DataTypes.STRING},
+    cantSalida:{type: DataTypes.INTEGER}
+},{
+    timestamps:false
+}
+)
 //Cart Salida Herramientas
 export const CartHerramientas = db.define('cart_herramientas',{
     idCart: {type: DataTypes.INTEGER, primaryKey:true},
