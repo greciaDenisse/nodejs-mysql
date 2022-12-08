@@ -10,7 +10,7 @@ export const stock = async (req,res) => {
 
     try{
         const matEntrada= await db.query(
-            'SELECT SUM(cantEntMat) As TotalMat ,e.idMaterial,e.idObra,o.nombreObra, m.nombreMat from entrada_materiales e JOIN materiales m ON e.idMaterial = m.idMaterial JOIN obras o ON o.idObra = e.idObra where e.idObra=? GROUP BY idMaterial;',
+            'SELECT SUM(cantEntMat) As TotalMat ,m.idCatMat,e.idMaterial,e.idObra,o.nombreObra, m.nombreMat from entrada_materiales e JOIN materiales m ON e.idMaterial = m.idMaterial JOIN obras o ON o.idObra = e.idObra where e.idObra=? GROUP BY idMaterial;',
             {
               replacements: [req.params.id],
               type:db.QueryTypes.SELECT
@@ -30,10 +30,10 @@ export const stock = async (req,res) => {
             const resultado = matSalida.filter(dato => dato.idMaterial === matEntrada[i].idMaterial);
                 //console.log(resultado)
                if(resultado.length ===0){
-                    arr.push({TotalMat:parseInt(matEntrada[i].TotalMat),idMaterial:matEntrada[i].idMaterial,nombreMat:matEntrada[i].nombreMat})
+                    arr.push({TotalMat:parseInt(matEntrada[i].TotalMat),idMaterial:matEntrada[i].idMaterial,nombreMat:matEntrada[i].nombreMat,categoria:matEntrada[i].idCatMat})
                 }else{
                         resta= matEntrada[i].TotalMat-(resultado[0].TotalSal);
-                        arr.push({TotalMat:resta,idMaterial:matEntrada[i].idMaterial,nombreMat:matEntrada[i].nombreMat})
+                        arr.push({TotalMat:resta,idMaterial:matEntrada[i].idMaterial,nombreMat:matEntrada[i].nombreMat,categoria:matEntrada[i].idCatMat})
                 }
                 //console.log(resultado)
         }
@@ -49,7 +49,7 @@ export const stock = async (req,res) => {
 export const getAllSalidas = async (req,res) => {
     try{
         const matSalida= await db.query(
-            'select s.idMaterial,s.cantSalMat,s.estadoSalida,s.idObra,m.nombreMat from materiales m JOIN salida_materiales s ON s.idMaterial = m.idMaterial where s.idObra=? AND s.estadoSalida=1',
+            'select s.idMaterial,s.cantSalMat,s.fechaSalMat,s.estadoSalida,s.idObra,m.nombreMat from materiales m JOIN salida_materiales s ON s.idMaterial = m.idMaterial where s.idObra=? AND s.estadoSalida=1',
             {
               replacements: [req.params.id],
               type:db.QueryTypes.SELECT

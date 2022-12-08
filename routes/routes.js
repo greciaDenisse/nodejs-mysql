@@ -11,7 +11,7 @@ import { createMat,deleteMat,updateMat,getMat,getMatActivo } from "../controller
 import {getAllObras,getObra,updateObra,deleteObra,createObra, uploadObra } from "../controllers/ControllerObras.js";
 import { getAllEntradas,createEntrada } from "../controllers/ControllerEntrada.js";
 import { getUnidad,createUnidad,updateUnidad,deleteUnidad,getAllUnidades} from "../controllers/ControllerUnidad.js";
-import { getAllBodegas } from "../controllers/ControllerBodega.js";
+import { getAllBodegas,createBodega,deleteBodega,getBodega,updateBodega } from "../controllers/ControllerBodega.js";
 import { createSalida,getAllSalidas, stock} from '../controllers/ControllerSalida.js';
 import { createCarritoMat,getAllCarritoMat } from '../controllers/ControllerCarritoMat.js';
 import { getAllPrestamos,createPrestamo , getPrestamo} from '../controllers/ControllerPrestamo.js';
@@ -22,6 +22,7 @@ import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../cont
 import { devolver } from '../controllers/ControllerDevolver.js';
 import { updatePin } from '../controllers/ControllerPinEmpleado.js';
 import { getAllManoObra, createPersonal, getPersonal, deletePersonal } from '../controllers/ControllerManoObra.js';
+
 
 const router = express.Router();
 
@@ -110,6 +111,10 @@ router.post('/entradaherramientas/',createEntradaHerramientas)
 
 //Bodegas
 router.get('/bodegas/',getAllBodegas)
+router.get('/bodegas/:id', getBodega)
+router.post('/bodegas/', createBodega)
+router.put('/bodegas/:id', updateBodega)
+router.delete('/bodegas/:id', deleteBodega)
 
 //unidades
 router.get('/unidad/', getAllUnidades)
