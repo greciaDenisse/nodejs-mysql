@@ -21,7 +21,8 @@ import { getAllEntradasHerramientas, createEntradaHerramientas } from '../contro
 import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../controllers/ControllerCartHerramientasEntrada.js';
 import { devolver } from '../controllers/ControllerDevolver.js';
 import { updatePin } from '../controllers/ControllerPinEmpleado.js';
-import { getAllManoObra, createPersonal, getPersonal, deletePersonal } from '../controllers/ControllerManoObra.js';
+import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResidentes, addResidente, getResidente } from '../controllers/ControllerManoObra.js';
+import { getAsistencia, getPersonalObra, createAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
 
 const router = express.Router();
 
@@ -150,6 +151,13 @@ router.get('/mano-obra/', getAllManoObra)
 router.get('/mano-obra/:id',getPersonal)
 router.post('/mano-obra/', createPersonal)
 router.delete('/mano-obra/:ido/emp/:ide', deletePersonal)
+router.get('/residentes/', getResidentes)
+router.get('/residentes/:id', getResidente)
+router.post('/residentes/', addResidente)
 
+//Asistencia campo
+router.get('/asistencia-obra/',getAsistencia)
+router.get('/asistencia-obra/:id', getPersonalObra)
+router.post('/asistencia-obra/', createAsistencia)
 
 export default router;

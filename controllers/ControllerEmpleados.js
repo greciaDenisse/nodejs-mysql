@@ -78,11 +78,11 @@ export const createEmpleado = async (req, res) => {
                 codigoJefe: codJef,
                 estadoEmp:1})
             res.json({
-                "message": "¡Registro creado correctamente!"
+                "message": "¡EMPLEADO AGREGADO CORRECTAMENTE!"
             })
         }else{
             res.json({
-                "message": "Ya existe"
+                "message": "EL EMPLEADO YA ESTA REGISTRADO, INGRESA OTRO..."
             })
         }
     }  catch (error){
@@ -137,7 +137,7 @@ export const updateEmpleado = async (req, res) => {
                     where:{idEmpleado:req.params.id}
                 })
             res.json({
-                "message": "¡Registro creado correctamente!"
+                "message": "¡EMPLEADO MODIFICADO CORRECTAMENTE!"
             })
             
         }else{
@@ -163,11 +163,11 @@ export const updateEmpleado = async (req, res) => {
                         where:{idEmpleado:req.params.id}
                     })
                     res.json({
-                        "message": "¡Registro creado correctamente!"
+                        "message": "¡EMPLEADO MODIFICADO CORRECTAMENTE!"
                     })                                
             }else{
                  res.json({
-                "message": "Ya existe"
+                "message": "EL EMPLEADO YA ESTA REGISTRADO, INGRESA OTRO..."
             })
             }
            

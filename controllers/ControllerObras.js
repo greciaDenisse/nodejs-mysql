@@ -166,11 +166,10 @@ export const updateObra =  async (req,res)=>{
                 })
             }else{
                 if(resultado1[0].dataValues.nombreObra === nombreObras){
-                     const res = await Obras.update({direccionObra:direccion,
+                    await Obras.update({direccionObra:direccion,
                         clienteObra:cliente,
                         fechaInicio:fechaI,fechaFinal:fechaF,idTObra:obraTipo},
                         {where:{idObra:req.params.id}}) 
-                        console.log(res)
                     res.json({
                         "message": "¡Registro actualizado correctamente!"
                     })

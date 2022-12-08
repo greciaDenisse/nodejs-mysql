@@ -266,3 +266,14 @@ export const ManoObra = db.define('obra_empleados',{
 },{
     timestamps:false
 })
+
+//Asistencia campo
+export const AsistenciaCampo = db.define('asistencia_obra_empleados',{
+    idObra: {type: DataTypes.INTEGER, primaryKey:true},
+    idEmpleado: {type: DataTypes.INTEGER, primaryKey:true},
+    asistencia :{type: DataTypes.BOOLEAN},
+    observacion: {type: DataTypes.STRING},
+    fecha:{type: DataTypes.DATE, primaryKey:true},
+},{
+    timestamps:false
+})

@@ -1,4 +1,4 @@
-import { ManoObra } from "../models/Models.js";
+import { ManoObra, Obras } from "../models/Models.js";
 import db from "../database/db.js";
 
 export const getAllManoObra = async (req,res) =>{
@@ -16,11 +16,47 @@ export const getAllManoObra = async (req,res) =>{
                 `SELECT e.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea = 'campo' AND p.nombrePuesto != 'residente' AND e.idEmpleado NOT IN (SELECT idEmpleado FROM obra_empleados) ORDER BY e.nombreEmp ASC`,
                 {type: db.QueryTypes.SELECT}
             )
-            res.json(salidas)
-            
+            res.json(salidas)   
         }
-       
-       
+    }catch (error){
+        res.json({message: error.message})
+    }
+}
+
+export const getResidentes = async (req,res) => {
+    try{
+        const residentes = await db.query(
+            `SELECT e.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN puestos p ON e.idPuesto = p.idPuesto WHERE nombrePuesto = 'residente' `,
+            {type: db.QueryTypes.SELECT}
+        )
+        res.json(residentes)
+    }catch (error){
+        res.json({message: error.message})
+    }
+}
+
+export const addResidente = async (req,res) =>{
+    try{
+        const residente = req.body.idResidente
+        const obra = req.body.idObra
+        await Obras.update({residente: residente},
+            {where:{idObra:obra}}) 
+        res.json({
+            "message": "¡RESIDENTE AGREGADO!"
+        })
+    }catch (error){
+        res.json({message: error.message})
+    }
+}
+
+export const getResidente = async (req,res) => {
+    try{
+        const obra = req.params.id
+        const residentes = await db.query(
+            `SELECT o.residente, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obras o ON e.idEmpleado = o.residente WHERE o.idObra = ${obra} `,
+            {type: db.QueryTypes.SELECT}
+        )
+        res.json(residentes)
     }catch (error){
         res.json({message: error.message})
     }
