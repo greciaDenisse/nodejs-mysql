@@ -50,11 +50,12 @@ export const createEntrada = async  (req,res) =>{
             await Entrada.create({idEntMat: lastId + 1,cantEntMat:materials[i].cantidad,
             precioUni:materials[i].precio,idMaterial:materials[i].material,
             idObra:numObra,idBodega:bodega,fechaEntMat:fecha,flete:0,estadoEntrada:1})
+        }
             res.json({
                 "message": "Registro creado correctamente"
                 
             })
-        }
+        
 
             } catch (error) {
                 res.json({message:error.message})
