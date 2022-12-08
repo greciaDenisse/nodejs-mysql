@@ -120,7 +120,6 @@ export const ModelSalidaHerramientas = db.define('salida_herramientas',{
 },{
     timestamps: false
 })
-//EntradasMateriales
 
 //Entrada Herramientas
 export const ModelEntradaHerramientas = db.define('entrada_herramientas',{
@@ -218,7 +217,9 @@ export const Prestamos = db.define('prestamos',{
     obraNueva:{type: DataTypes.INTEGER},
     idMaterial:{type: DataTypes.INTEGER},
     cantSalMat:{type: DataTypes.INTEGER},
-    idEntMat:{type: DataTypes.INTEGER}
+    idEntMat:{type: DataTypes.INTEGER},
+     horaPrestamo: {type: DataTypes.TIME},
+    fechaPrestamo: {type: DataTypes.DATE},
 },{
     timestamps:false
 }

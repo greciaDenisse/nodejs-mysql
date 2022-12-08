@@ -6,7 +6,7 @@ import db from "../database/db.js";
 export const getAllEntradas = async (req,res) => {
     try{
         const entradaMat= await db.query(
-            'SELECT e.idObra, e.cantEntMat,e.precioUni, m.nombreMat,b.nombreBod, e.fechaEntMat from  entrada_materiales e JOIN materiales m ON m.idMaterial=e.idMaterial JOIN bodegas_materiales b ON b.idBodega=e.idBodega where e.estadoEntrada=1'
+            'SELECT e.idObra, e.cantEntMat,e.precioUni,m.idCatMat, m.nombreMat,b.nombreBod, e.fechaEntMat from  entrada_materiales e JOIN materiales m ON m.idMaterial=e.idMaterial JOIN bodegas_materiales b ON b.idBodega=e.idBodega where e.estadoEntrada=1'
             ,{type:db.QueryTypes.SELECT}
         )
         res.json(entradaMat)
@@ -50,11 +50,12 @@ export const createEntrada = async  (req,res) =>{
             await Entrada.create({idEntMat: lastId + 1,cantEntMat:materials[i].cantidad,
             precioUni:materials[i].precio,idMaterial:materials[i].material,
             idObra:numObra,idBodega:bodega,fechaEntMat:fecha,flete:0,estadoEntrada:1})
+        }
             res.json({
                 "message": "Registro creado correctamente"
                 
             })
-        }
+        
 
             } catch (error) {
                 res.json({message:error.message})
