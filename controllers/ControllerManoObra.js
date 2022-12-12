@@ -6,14 +6,14 @@ export const getAllManoObra = async (req,res) =>{
         const empleados = await ManoObra.findAll()
         if(empleados.length === 0){
             const salidas = await db.query(
-                `SELECT e.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea = 'campo' AND p.nombrePuesto != 'residente' ORDER BY e.nombreEmp ASC`,
+                `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, p.nombrePuesto FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea = 'campo' AND p.nombrePuesto != 'residente' ORDER BY e.nombreEmp ASC`,
                 {type: db.QueryTypes.SELECT}
             )
             res.json(salidas)
             console.log(salidas)
         }else{
             const salidas = await db.query(
-                `SELECT e.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea = 'campo' AND p.nombrePuesto != 'residente' AND e.idEmpleado NOT IN (SELECT idEmpleado FROM obra_empleados) ORDER BY e.nombreEmp ASC`,
+                `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, p.nombrePuesto FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea = 'campo' AND p.nombrePuesto != 'residente' AND e.idEmpleado NOT IN (SELECT idEmpleado FROM obra_empleados) ORDER BY e.nombreEmp ASC`,
                 {type: db.QueryTypes.SELECT}
             )
             res.json(salidas)   
@@ -66,7 +66,7 @@ export const getPersonal = async (req,res) =>{
     try{
         const obra = req.params.id
         const personal = await db.query(
-            `SELECT mo.idObra, mo.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM obra_empleados mo JOIN empleados e ON mo.idEmpleado = e.idEmpleado WHERE mo.idObra = ${obra} `,
+            `SELECT mo.idObra, mo.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, p.nombrePuesto FROM obra_empleados mo JOIN empleados e ON mo.idEmpleado = e.idEmpleado JOIN puestos p ON p.idPuesto = e.idPuesto WHERE mo.idObra = ${obra} `,
             {type: db.QueryTypes.SELECT}
         )
         res.json(personal)

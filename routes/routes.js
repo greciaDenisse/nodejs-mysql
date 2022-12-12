@@ -22,7 +22,7 @@ import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../cont
 import { devolver } from '../controllers/ControllerDevolver.js';
 import { updatePin } from '../controllers/ControllerPinEmpleado.js';
 import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResidentes, addResidente, getResidente } from '../controllers/ControllerManoObra.js';
-import { getAsistencia, getPersonalObra, createAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
+import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada } from '../controllers/ControllerAsistenciaCampo.js';
 
 
 const router = express.Router();
@@ -164,5 +164,5 @@ router.post('/residentes/', addResidente)
 router.get('/asistencia-obra/',getAsistencia)
 router.get('/asistencia-obra/:id', getPersonalObra)
 router.post('/asistencia-obra/', createAsistencia)
-
+router.get('/lista-asistencia/:id', getAsistenciaTomada)
 export default router;
