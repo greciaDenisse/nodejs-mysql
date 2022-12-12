@@ -5,7 +5,7 @@ import moment from "moment/moment.js";
 export const getAsistencia = async (req,res) =>{
     try{
         const asistencia = await db.query(
-            `SELECT ac.idObra, ac.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN asistencia_obra_empleados ac ON ac.idEmpleado = e.idEmpleado ORDER BY e.nombreEmp ASC`,
+            `SELECT ac.idObra, ac.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN asistencia_obra_empleados ac ON ac.idEmpleado = e.idEmpleado WHERE e.estadoEmp = 1 ORDER BY e.nombreEmp ASC`,
             {type: db.QueryTypes.SELECT}
         )
         //const hora = moment().locale('zh-mx').format('HH:mm:ss');
@@ -37,7 +37,7 @@ export const getAsistenciaTomada = async (req,res) =>{
     try{
         const obra = req.params.id
         const listaAsistencia = await db.query(
-            `SELECT a.idObra, a.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, a.asistencia, a.observacion, a.fecha FROM empleados e JOIN asistencia_obra_empleados a ON a.idEmpleado = e.idEmpleado WHERE a.idObra = ${obra} ORDER BY a.fecha DESC`,
+            `SELECT a.idObra, a.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, a.asistencia, a.observacion, a.fecha FROM empleados e JOIN asistencia_obra_empleados a ON a.idEmpleado = e.idEmpleado WHERE a.idObra = ${obra} AND e.estadoEmp = 1 ORDER BY a.fecha DESC`,
             {type: db.QueryTypes.SELECT}
         )
         res.json(listaAsistencia)
@@ -52,7 +52,7 @@ export const getPersonalObra = async (req,res) =>{
         const obra = req.params.id
         const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
         const personal = await db.query(
-            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra}  AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia = 1 AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
+            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} AND e.estadoEmp = 1 AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia = 1 AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
             {type: db.QueryTypes.SELECT}
         )
         res.json(personal)
@@ -86,7 +86,7 @@ export const createAsistencia = async (req,res) =>{
         
         const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
         const personal = await db.query(
-            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra}  AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia = 1 AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
+            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} AND e.estadoEmp = 1 AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia = 1 AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
             {type: db.QueryTypes.SELECT}
         )
         console.log(personal)
