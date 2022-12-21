@@ -22,6 +22,8 @@ import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../cont
 import { devolver } from '../controllers/ControllerDevolver.js';
 import { updatePin } from '../controllers/ControllerPinEmpleado.js';
 import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResidentes, addResidente, getResidente } from '../controllers/ControllerManoObra.js';
+import { getAsisOficina,getEmpleadosOfi,createAsisOfis } from '../controllers/ControllerAsisOfi.js';
+import { getGastosMat } from '../controllers/ControllerGastoMat.js';
 import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada, updateAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
 import { getGastosManoObra } from '../controllers/ControllerGastosManoObra.js';
 
@@ -165,6 +167,15 @@ router.post('/residentes/', addResidente)
 router.get('/asistencia-obra/',getAsistencia)
 router.get('/asistencia-obra/:id', getPersonalObra)
 router.post('/asistencia-obra/', createAsistencia)
+
+//Asistencia oficina
+router.get('/asistencia-oficina/',getAsisOficina)
+router.get('/empleadosOficina/',getEmpleadosOfi)
+router.post('/createAsisOfis/', createAsisOfis)
+
+//gastos
+router.get('/gastosMat/:idI/fechaFin/:idF/obra/:idO', getGastosMat)
+
 router.get('/lista-asistencia/:id', getAsistenciaTomada)
 router.put('/asistencia-obra/:ido/emp/:ide', updateAsistencia)
 

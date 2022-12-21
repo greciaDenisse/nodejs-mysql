@@ -141,7 +141,7 @@ export const Entrada = db.define('entrada_materiales',{
     precioUni:{type: DataTypes.DOUBLE},
     fechaEntMat:{type: DataTypes.DATE},
     idObra:{type: DataTypes.INTEGER},
-    estadoEntrada:{type: DataTypes.BOOLEAN},
+    estadoEntrada:{type: DataTypes.INTEGER},
     idMaterial:{type: DataTypes.INTEGER},
     idBodega:{type: DataTypes.INTEGER}
 },{
@@ -271,6 +271,16 @@ export const ManoObra = db.define('obra_empleados',{
 //Asistencia campo
 export const AsistenciaCampo = db.define('asistencia_obra_empleados',{
     idObra: {type: DataTypes.INTEGER, primaryKey:true},
+    idEmpleado: {type: DataTypes.INTEGER, primaryKey:true},
+    asistencia :{type: DataTypes.BOOLEAN},
+    observacion: {type: DataTypes.STRING},
+    fecha:{type: DataTypes.DATE, primaryKey:true},
+},{
+    timestamps:false
+})
+
+//Asistencia oficina
+export const AsistenciaOficina = db.define('asistencia_oficina',{
     idEmpleado: {type: DataTypes.INTEGER, primaryKey:true},
     asistencia :{type: DataTypes.BOOLEAN},
     observacion: {type: DataTypes.STRING},
