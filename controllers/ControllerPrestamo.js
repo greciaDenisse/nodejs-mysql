@@ -50,7 +50,7 @@ export const createPrestamo = async  (req,res) =>{
            await Salidas.create({idSalMat: lastId + 1, 
                 cantSalMat: carrito[i].cantidad,fechaSalMat:fecha,
                 flete:0,idMaterial:carrito[i].idMaterial,idObra:numObraOriginal,
-                estadoSalida:0})
+                estadoSalida:1})
             
            const precioMax = await db.query(
                     'SELECT precioUni,idBodega FROM entrada_materiales WHERE idMaterial=? ORDER BY idEntMat DESC LIMIT 1',
@@ -72,7 +72,7 @@ export const createPrestamo = async  (req,res) =>{
             const lastEntrada = idEntrada[0]["maxId"]; 
 
             await Entrada.create({idEntMat: lastEntrada+ 1,cantEntMat:carrito[i].cantidad,
-                precioUni:precioFinal,idMaterial:carrito[i].idMaterial,estadoEntrada:1,
+                precioUni:precioFinal,idMaterial:carrito[i].idMaterial,estadoEntrada:2,
                 idObra:numObraNueva,idBodega:bodegaFinal,fechaEntMat:fecha})
 
             const prestamoId = await Prestamos.findAll({
