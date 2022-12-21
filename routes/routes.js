@@ -22,7 +22,6 @@ import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../cont
 import { devolver } from '../controllers/ControllerDevolver.js';
 import { updatePin } from '../controllers/ControllerPinEmpleado.js';
 import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResidentes, addResidente, getResidente } from '../controllers/ControllerManoObra.js';
-import { getAsistencia, getPersonalObra, createAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
 import { getAsisOficina,getEmpleadosOfi,createAsisOfis } from '../controllers/ControllerAsisOfi.js';
 import { getGastosMat } from '../controllers/ControllerGastoMat.js';
 import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada } from '../controllers/ControllerAsistenciaCampo.js';
