@@ -74,14 +74,16 @@ export const createAsistencia = async (req,res) =>{
             )
             var getdatetime = new Date();
             var week = moment(getdatetime,"DD-MM-YYYY").isoWeek()
+            console.log(week)
             if(resultado.length === 0){
-                await AsistenciaCampo.create({
+                await db.query(`INSERT INTO asistencia_obra_empleados (idObra, idEmpleado, asistencia, observacion, extra, semana, fecha) VALUES (${obra}, ${lista[i].idL}, 1, '${lista[i].obsL}', 0, ${week},'${fecha}');`)
+                /*await AsistenciaCampo.create({
                     idObra: obra, idEmpleado: lista[i].idL,
                     asistencia: 1, observacion: lista[i].obsL, semana: week, fecha: fecha
-                 })
+                 })*/
                  console.log("Asistencia agregada")
             }else{
-                await db.query(`UPDATE asistencia_obra_empleados SET asistencia = 1, observacion = ${lista[i].obsL}, semana = ${week} WHERE idObra = ${obra} AND idEmpleado = ${lista[i].idL} AND fecha = '${fecha}'`)
+                await db.query(`UPDATE asistencia_obra_empleados SET asistencia = 1, observacion = '${lista[i].obsL}', semana = ${week} WHERE idObra = ${obra} AND idEmpleado = ${lista[i].idL} AND fecha = '${fecha}'`)
                 console.log("Asistencia agregada")
             }
         }
@@ -101,10 +103,11 @@ export const createAsistencia = async (req,res) =>{
             var getdatetime = new Date();
             var week = moment(getdatetime,"DD-MM-YYYY").isoWeek()
             if(resultado.length === 0){
-                await AsistenciaCampo.create({
+                await db.query(`INSERT INTO asistencia_obra_empleados (idObra, idEmpleado, asistencia, extra, semana, fecha) VALUES (${obra}, ${personal[j].idEmpleado}, 0, 0, ${week},'${fechaNow}');`)
+                /*await AsistenciaCampo.create({
                     idObra: obra, idEmpleado: personal[j].idEmpleado,
                     asistencia: 0, observacion: null, semana:week, fecha: fechaNow
-                 })
+                 })*/
                  console.log("Falta agregada")
             }else{
                 await db.query(`UPDATE asistencia_obra_empleados SET asistencia = 0, semana = ${week} WHERE idObra = ${obra} AND idEmpleado = ${personal[j].idEmpleado} AND fecha = '${fecha}'`)
@@ -141,7 +144,7 @@ export const updateAsistencia = async (req,res) =>{
         const fecha = req.body.fecha
         const asistencia = req.body.asistencia
         const extra = req.body.extra
-        await db.query(`UPDATE asistencia_obra_empleados SET asistencia = ${asistencia}, extra = '${extra}' WHERE idObra = ${obra} AND idEmpleado = ${empleado} AND fecha = '${fecha}'`)
+        await db.query(`UPDATE asistencia_obra_empleados SET asistencia = ${asistencia}, extra = ${extra} WHERE idObra = ${obra} AND idEmpleado = ${empleado} AND fecha = '${fecha}'`)
         res.json({
             "message": "¡Registro modificado correctamente!"
         })

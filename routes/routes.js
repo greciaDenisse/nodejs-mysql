@@ -25,7 +25,7 @@ import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResiden
 import { getAsisOficina,getEmpleadosOfi,createAsisOfis } from '../controllers/ControllerAsisOfi.js';
 import { getGastosMat } from '../controllers/ControllerGastoMat.js';
 import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada, updateAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
-import { getGastosManoObra } from '../controllers/ControllerGastosManoObra.js';
+import { getGastosManoObra, createGatosObra, getGastosRegistrados } from '../controllers/ControllerGastosManoObra.js';
 
 
 const router = express.Router();
@@ -181,5 +181,7 @@ router.put('/asistencia-obra/:ido/emp/:ide', updateAsistencia)
 
 //Gastos mano de obra
 router.get('/gastos-mano-obra/:id', getGastosManoObra)
+router.get('/gastos-registrados/:id', getGastosRegistrados)
+router.post('/gastos-mano-obra/', createGatosObra)
 
 export default router;
