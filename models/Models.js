@@ -218,6 +218,7 @@ export const Prestamos = db.define('prestamos',{
     idMaterial:{type: DataTypes.INTEGER},
     cantSalMat:{type: DataTypes.INTEGER},
     idEntMat:{type: DataTypes.INTEGER},
+    prestamoCant:{type: DataTypes.INTEGER},
      horaPrestamo: {type: DataTypes.TIME},
     fechaPrestamo: {type: DataTypes.DATE},
 },{

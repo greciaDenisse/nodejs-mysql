@@ -49,7 +49,7 @@ export const stock = async (req,res) => {
 export const getAllSalidas = async (req,res) => {
     try{
         const matSalida= await db.query(
-            'select s.idMaterial,s.cantSalMat,s.fechaSalMat,s.estadoSalida,s.idObra,m.nombreMat from materiales m JOIN salida_materiales s ON s.idMaterial = m.idMaterial where s.idObra=? AND s.estadoSalida=1',
+            'select s.idMaterial,s.cantSalMat,s.estadoSalida,s.fechaSalMat,s.estadoSalida,s.idObra,m.nombreMat from materiales m JOIN salida_materiales s ON s.idMaterial = m.idMaterial where s.idObra=?',
             {
               replacements: [req.params.id],
               type:db.QueryTypes.SELECT

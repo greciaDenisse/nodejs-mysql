@@ -8,7 +8,7 @@ import moment from "moment/moment.js";
 export const getAllPrestamos = async (req,res) => {
     try{
         const prestamos = await db.query(
-            'SELECT o.nombreObra as original,ob.nombreObra as nueva,p.idMaterial,p.horaPrestamo,p.fechaPrestamo,m.nombreMat,p.idEntMat,p.idPrestamo,p.cantSalMat from prestamos p JOIN materiales m ON m.idMaterial=p.idMaterial JOIN obras o ON  o.idObra=p.obraOriginal JOIN obras ob ON ob.idObra = p.obraNueva where p.cantSalMat>0',
+            'SELECT o.nombreObra as original,p.prestamoCant,ob.nombreObra as nueva,p.idMaterial,p.horaPrestamo,p.fechaPrestamo,m.nombreMat,p.idEntMat,p.idPrestamo,p.cantSalMat from prestamos p JOIN materiales m ON m.idMaterial=p.idMaterial JOIN obras o ON  o.idObra=p.obraOriginal JOIN obras ob ON ob.idObra = p.obraNueva',
             {type: db.QueryTypes.SELECT}
         )
         res.json(prestamos)
@@ -50,7 +50,7 @@ export const createPrestamo = async  (req,res) =>{
            await Salidas.create({idSalMat: lastId + 1, 
                 cantSalMat: carrito[i].cantidad,fechaSalMat:fecha,
                 flete:0,idMaterial:carrito[i].idMaterial,idObra:numObraOriginal,
-                estadoSalida:1})
+                estadoSalida:0})
             
            const precioMax = await db.query(
                     'SELECT precioUni,idBodega FROM entrada_materiales WHERE idMaterial=? ORDER BY idEntMat DESC LIMIT 1',
@@ -86,7 +86,7 @@ export const createPrestamo = async  (req,res) =>{
             const fechaPrestamo = moment().locale('zh-mx').format('YYYY-MM-DD');
 
            await Prestamos.create({idPrestamo: lastIdPrestamo + 1, 
-                cantSalMat: carrito[i].cantidad,horaPrestamo:hora,fechaPrestamo:fechaPrestamo,
+                cantSalMat: carrito[i].cantidad,prestamoCant: carrito[i].cantidad,horaPrestamo:hora,fechaPrestamo:fechaPrestamo,
                 idMaterial:carrito[i].idMaterial,obraOriginal:numObraOriginal,
                 obraNueva:numObraNueva,idEntMat:lastEntrada+1})
             //console.log("registrado")
