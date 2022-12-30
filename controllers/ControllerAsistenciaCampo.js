@@ -37,7 +37,7 @@ export const getAsistenciaTomada = async (req,res) =>{
     try{
         const obra = req.params.id
         const listaAsistencia = await db.query(
-            `SELECT a.idObra, a.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, a.asistencia, a.observacion, a.fecha FROM empleados e JOIN asistencia_obra_empleados a ON a.idEmpleado = e.idEmpleado WHERE a.idObra = ${obra} AND e.estadoEmp = 1 ORDER BY a.fecha DESC`,
+            `SELECT a.idObra, a.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, a.asistencia, a.observacion, a.extra, a.fecha FROM empleados e JOIN asistencia_obra_empleados a ON a.idEmpleado = e.idEmpleado WHERE a.idObra = ${obra} AND e.estadoEmp = 1 ORDER BY a.fecha DESC`,
             {type: db.QueryTypes.SELECT}
         )
         res.json(listaAsistencia)
@@ -52,7 +52,7 @@ export const getPersonalObra = async (req,res) =>{
         const obra = req.params.id
         const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
         const personal = await db.query(
-            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} AND e.estadoEmp = 1 AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia = 1 AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
+            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} AND e.estadoEmp = 1 AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia IN (1,0.5) AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
             {type: db.QueryTypes.SELECT}
         )
         res.json(personal)
@@ -72,21 +72,25 @@ export const createAsistencia = async (req,res) =>{
                 `SELECT * FROM asistencia_obra_empleados WHERE idObra = ${obra} AND idEmpleado = ${lista[i].idL} AND fecha = '${fecha}' `,
                 {type: db.QueryTypes.SELECT}
             )
+            var getdatetime = new Date();
+            var week = moment(getdatetime,"DD-MM-YYYY").isoWeek()
+            console.log(week)
             if(resultado.length === 0){
-                await AsistenciaCampo.create({
+                await db.query(`INSERT INTO asistencia_obra_empleados (idObra, idEmpleado, asistencia, observacion, extra, semana, fecha) VALUES (${obra}, ${lista[i].idL}, 1, '${lista[i].obsL}', 0, ${week},'${fecha}');`)
+                /*await AsistenciaCampo.create({
                     idObra: obra, idEmpleado: lista[i].idL,
-                    asistencia: 1, observacion: lista[i].obsL, fecha: fecha
-                 })
+                    asistencia: 1, observacion: lista[i].obsL, semana: week, fecha: fecha
+                 })*/
                  console.log("Asistencia agregada")
             }else{
-                await db.query(`UPDATE asistencia_obra_empleados SET asistencia = 1, observacion = ${lista[i].obsL} WHERE idObra = ${obra} AND idEmpleado = ${lista[i].idL} AND fecha = '${fecha}'`)
+                await db.query(`UPDATE asistencia_obra_empleados SET asistencia = 1, observacion = '${lista[i].obsL}', semana = ${week} WHERE idObra = ${obra} AND idEmpleado = ${lista[i].idL} AND fecha = '${fecha}'`)
                 console.log("Asistencia agregada")
             }
         }
         
         const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
         const personal = await db.query(
-            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} AND e.estadoEmp = 1 AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia = 1 AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
+            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN obra_empleados oe ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} AND e.estadoEmp = 1 AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_obra_empleados ao WHERE ao.asistencia IN (1,0.5) AND ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
             {type: db.QueryTypes.SELECT}
         )
         console.log(personal)
@@ -96,20 +100,55 @@ export const createAsistencia = async (req,res) =>{
                 `SELECT * FROM asistencia_obra_empleados WHERE idObra = ${obra} AND idEmpleado = ${personal[j].idEmpleado} AND fecha = '${fecha}' `,
                 {type: db.QueryTypes.SELECT}
             )
+            var getdatetime = new Date();
+            var week = moment(getdatetime,"DD-MM-YYYY").isoWeek()
             if(resultado.length === 0){
-                await AsistenciaCampo.create({
+                await db.query(`INSERT INTO asistencia_obra_empleados (idObra, idEmpleado, asistencia, extra, semana, fecha) VALUES (${obra}, ${personal[j].idEmpleado}, 0, 0, ${week},'${fechaNow}');`)
+                /*await AsistenciaCampo.create({
                     idObra: obra, idEmpleado: personal[j].idEmpleado,
-                    asistencia: 0, observacion: null, fecha: fechaNow
-                 })
+                    asistencia: 0, observacion: null, semana:week, fecha: fechaNow
+                 })*/
                  console.log("Falta agregada")
             }else{
-                await db.query(`UPDATE asistencia_obra_empleados SET asistencia = 0 WHERE idObra = ${obra} AND idEmpleado = ${personal[j].idEmpleado} AND fecha = '${fecha}'`)
+                await db.query(`UPDATE asistencia_obra_empleados SET asistencia = 0, semana = ${week} WHERE idObra = ${obra} AND idEmpleado = ${personal[j].idEmpleado} AND fecha = '${fecha}'`)
                 console.log("Falta agregada")
             }
         }
         res.json({
             "message": "SE GUARDÓ ASISTENCIA CORRECTAMENTE"
         })
+    }catch (error){
+        res.json({message: error.message})
+    }
+}
+
+export const deleteAsistencia = async (req,res) =>{
+    try{
+        const obra = req.params.ido
+        const empleado = req.params.ide
+        const fecha = req.body.fecha
+        await db.query(`DELETE FROM asistencia_obra_empleados WHERE idObra = ${obra} AND idEmpleado = ${empleado} AND fecha = '${fecha}'`)
+        res.json({
+            "message": "¡Registro eliminado correctamente!"
+        })
+        
+    }catch (error){
+        res.json({message: error.message})
+    }
+}
+
+export const updateAsistencia = async (req,res) =>{
+    try{
+        const obra = req.params.ido
+        const empleado = req.params.ide
+        const fecha = req.body.fecha
+        const asistencia = req.body.asistencia
+        const extra = req.body.extra
+        await db.query(`UPDATE asistencia_obra_empleados SET asistencia = ${asistencia}, extra = ${extra} WHERE idObra = ${obra} AND idEmpleado = ${empleado} AND fecha = '${fecha}'`)
+        res.json({
+            "message": "¡Registro modificado correctamente!"
+        })
+        
     }catch (error){
         res.json({message: error.message})
     }

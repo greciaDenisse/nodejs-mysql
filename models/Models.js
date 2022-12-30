@@ -273,7 +273,7 @@ export const ManoObra = db.define('obra_empleados',{
 export const AsistenciaCampo = db.define('asistencia_obra_empleados',{
     idObra: {type: DataTypes.INTEGER, primaryKey:true},
     idEmpleado: {type: DataTypes.INTEGER, primaryKey:true},
-    asistencia :{type: DataTypes.BOOLEAN},
+    asistencia :{type: DataTypes.FLOAT},
     observacion: {type: DataTypes.STRING},
     fecha:{type: DataTypes.DATE, primaryKey:true},
 },{
@@ -286,6 +286,20 @@ export const AsistenciaOficina = db.define('asistencia_oficina',{
     asistencia :{type: DataTypes.BOOLEAN},
     observacion: {type: DataTypes.STRING},
     fecha:{type: DataTypes.DATE, primaryKey:true},
+},{
+    timestamps:false
+})
+
+//Gastos Mano de Obra
+export const GastoManoObra = db.define('gasto_mano_obras',{
+    idObra: {type: DataTypes.INTEGER, primaryKey:true},
+    idEmpleado: {type: DataTypes.INTEGER, primaryKey:true},
+    dias : {type: DataTypes.FLOAT},
+    precio: {type: DataTypes.DOUBLE},
+    extra: {type: DataTypes.DOUBLE},
+    total: {type: DataTypes.DOUBLE},
+    fecha: {type: DataTypes.DATE, primaryKey:true},
+    semana: {type: DataTypes.INTEGER},
 },{
     timestamps:false
 })
