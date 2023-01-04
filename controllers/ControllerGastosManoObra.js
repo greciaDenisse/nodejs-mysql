@@ -21,7 +21,7 @@ export const getGastosRegistrados = async (req,res) =>{
     try{
         const obra = req.params.id
         const gastos = await db.query(
-            `SELECT g.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, g.dias, g.precio, g.extra, g.total, g.fecha, g.totalSemana FROM gasto_mano_obras g JOIN empleados e ON g.idEmpleado = e.idEmpleado WHERE g.idObra = ${obra} `,
+            `SELECT g.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, g.dias, g.precio, g.extra, g.total, g.fecha, g.totalSemana FROM gasto_mano_obras g JOIN empleados e ON g.idEmpleado = e.idEmpleado WHERE g.idObra = ${obra} ORDER BY g.semana DESC `,
             {type: db.QueryTypes.SELECT}
         )
         res.json(gastos)
@@ -67,3 +67,20 @@ export const createGatosObra = async (req,res) =>{
         res.json({message: error.message})
     }
 }
+
+export const getGastoTotalManoObra = async (req,res) =>{
+    try{
+        const obra = req.params.id
+        var getdatetime = new Date();
+        var week = moment(getdatetime,"DD-MM-YYYY").isoWeek()
+        const gastos = await db.query(
+            `SELECT CAST(TRUNCATE(SUM(g.total),2) AS FLOAT) AS total FROM gasto_mano_obras g WHERE idObra = ${obra}; `,
+            {type: db.QueryTypes.SELECT}
+        )
+        res.json(gastos)
+    } catch (error){
+        res.json({message: error.message})
+    }
+}
+
+//`SELECT CAST(TRUNCATE(SUM(g.total),2) AS FLOAT) AS total FROM gasto_mano_obras g WHERE idObra = ${obra} AND semana = ${week}; `,
