@@ -22,8 +22,8 @@ import { getListaEnt,createListaEnt, deleteHerEnt, deleteListEnt } from '../cont
 import { devolver } from '../controllers/ControllerDevolver.js';
 import { updatePin } from '../controllers/ControllerPinEmpleado.js';
 import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResidentes, addResidente, getResidente } from '../controllers/ControllerManoObra.js';
-import { getAsisOficina,getEmpleadosOfi,createAsisOfis } from '../controllers/ControllerAsisOfi.js';
-import { getGastosMat } from '../controllers/ControllerGastoMat.js';
+import { getAsisOficina,getEmpleadosOfi,createAsisOfis,updateAsisOfi} from '../controllers/ControllerAsisOfi.js';
+import { getGastosMat,totalGastos } from '../controllers/ControllerGastoMat.js';
 import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada, updateAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
 import { getGastosManoObra, createGatosObra, getGastosRegistrados } from '../controllers/ControllerGastosManoObra.js';
 
@@ -172,10 +172,13 @@ router.post('/asistencia-obra/', createAsistencia)
 router.get('/asistencia-oficina/',getAsisOficina)
 router.get('/empleadosOficina/',getEmpleadosOfi)
 router.post('/createAsisOfis/', createAsisOfis)
+router.put('/asistencia-oficina/emp/:ide', updateAsisOfi)
 
-//gastos
-router.get('/gastosMat/:idI/fechaFin/:idF/obra/:idO', getGastosMat)
+//gastos materiales
+router.get('/gastosMat/obra/:idO', getGastosMat)
+router.get('/totalGastosMat/:idO', totalGastos)
 
+//
 router.get('/lista-asistencia/:id', getAsistenciaTomada)
 router.put('/asistencia-obra/:ido/emp/:ide', updateAsistencia)
 

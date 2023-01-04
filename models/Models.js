@@ -283,7 +283,7 @@ export const AsistenciaCampo = db.define('asistencia_obra_empleados',{
 //Asistencia oficina
 export const AsistenciaOficina = db.define('asistencia_oficina',{
     idEmpleado: {type: DataTypes.INTEGER, primaryKey:true},
-    asistencia :{type: DataTypes.BOOLEAN},
+    asistencia :{type: DataTypes.BOOLEAN},semana: {type: DataTypes.INTEGER},
     observacion: {type: DataTypes.STRING},
     fecha:{type: DataTypes.DATE, primaryKey:true},
 },{
