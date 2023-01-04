@@ -25,8 +25,13 @@ import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResiden
 import { getAsisOficina,getEmpleadosOfi,createAsisOfis } from '../controllers/ControllerAsisOfi.js';
 import { getGastosMat } from '../controllers/ControllerGastoMat.js';
 import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada, updateAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
-import { getGastosManoObra, createGatosObra, getGastosRegistrados } from '../controllers/ControllerGastosManoObra.js';
-
+import { getGastosManoObra, createGatosObra, getGastosRegistrados, getGastoTotalManoObra } from '../controllers/ControllerGastosManoObra.js';
+import { getAllAdicionales, getAdicional, createAdicional, updateAdicional, deleteAdicional } from '../controllers/ControllerAdicionales.js';
+import { getAllMaquinarias, getMaquinaria, createMaquinaria, updateMaquinaria, deleteMaquinaria } from '../controllers/ControllerMaquinarias.js';
+import { getAllTramites, getTramite, createTramite, updateTramite, deleteTramite } from '../controllers/ControllerTramites.js';
+import { getGastosAdicionales, createGastoAdicional, getGastoTotalAdicionales } from '../controllers/ControllerGastosAdicionales.js';
+import { getGastosMaquinarias, createGastoMaquinaria, getGastoTotalMaquinaria } from '../controllers/ControllerGastosMaquinaria.js';
+import { getGastosTramites, createGastoTramite, getGastoTotalTramites } from '../controllers/ControllerGastosTramites.js';
 
 const router = express.Router();
 
@@ -183,5 +188,41 @@ router.put('/asistencia-obra/:ido/emp/:ide', updateAsistencia)
 router.get('/gastos-mano-obra/:id', getGastosManoObra)
 router.get('/gastos-registrados/:id', getGastosRegistrados)
 router.post('/gastos-mano-obra/', createGatosObra)
+router.get('/gasto-total-mano-obra/:id', getGastoTotalManoObra)
 
+//Adicionales
+router.get('/adicionales/', getAllAdicionales)
+router.get('/adicionales/:id', getAdicional)
+router.post('/adicionales/', createAdicional)
+router.put('/adicionales/:id', updateAdicional)
+router.delete('/adicionales/:id', deleteAdicional)
+
+//Maquinarias
+router.get('/maquinarias/', getAllMaquinarias)
+router.get('/maquinarias/:id', getMaquinaria)
+router.post('/maquinarias/', createMaquinaria)
+router.put('/maquinarias/:id', updateMaquinaria)
+router.delete('/maquinarias/:id', deleteMaquinaria)
+
+//Tramites
+router.get('/tramites/', getAllTramites)
+router.get('/tramites/:id', getTramite)
+router.post('/tramites/', createTramite)
+router.put('/tramites/:id', updateTramite)
+router.delete('/tramites/:id', deleteTramite)
+
+//Gastos adicionales obra
+router.get('/gastos-adicionales-obra/:id', getGastosAdicionales)
+router.post('/gastos-adicionales-obra/', createGastoAdicional)
+router.get('/gasto-total-adicionales/:id', getGastoTotalAdicionales)
+
+//Gastos maquinaria obra
+router.get('/gastos-maquinaria-obra/:id', getGastosMaquinarias)
+router.post('/gastos-maquinaria-obra/', createGastoMaquinaria)
+router.get('/gasto-total-maquinaria/:id', getGastoTotalMaquinaria)
+
+//Gastos tramites obra
+router.get('/gastos-tramites-obra/:id', getGastosTramites)
+router.post('/gastos-tramites-obra/', createGastoTramite)
+router.get('/gasto-total-tramites/:id', getGastoTotalTramites)
 export default router;

@@ -15,7 +15,7 @@ export const getAllMat = async (req,res) => {
 export const getMatActivo = async (req,res) => {
     try{
          const materiales= await db.query(
-             'select m.idMaterial,m.codigoMat,m.nombreMat,m.stockMat,m.idCatMat,u.nombreUnidad from materiales m JOIN unidades_materiales u ON u.idUnidad = m.idUnidad where m.estadoMat=1',
+             'select m.idMaterial,m.codigoMat,m.nombreMat,m.stockMat,m.idCatMat, m.idUnidad, u.nombreUnidad from materiales m JOIN unidades_materiales u ON u.idUnidad = m.idUnidad where m.estadoMat=1',
              {type:db.QueryTypes.SELECT}
          )
          res.json(materiales)

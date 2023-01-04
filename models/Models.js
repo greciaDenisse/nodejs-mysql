@@ -47,7 +47,7 @@ export const TipObra = db.define('tipos_obras',{
 export const ModelAreas = db.define('areas',{
     idArea: {type: DataTypes.INTEGER, primaryKey:true},
     nombreArea: {type: DataTypes.STRING},
-    estadoArea: {type: DataTypes.STRING},
+    estadoArea: {type: DataTypes.BOOLEAN},
 },{
     timestamps: false
 })
@@ -299,6 +299,74 @@ export const GastoManoObra = db.define('gasto_mano_obras',{
     total: {type: DataTypes.DOUBLE},
     fecha: {type: DataTypes.DATE, primaryKey:true},
     semana: {type: DataTypes.INTEGER},
+},{
+    timestamps:false
+})
+
+//Modelo adicionales
+export const ModelAdicionales = db.define('adicionales',{
+    idAdicional: {type: DataTypes.INTEGER, primaryKey:true},
+    nombreAdicional: {type: DataTypes.STRING},
+    estadoAdicional: {type: DataTypes.BOOLEAN},
+},{
+    timestamps: false
+})
+
+//Modelo maquinarias
+export const ModelMaquinarias = db.define('maquinarias',{
+    idMaquinaria: {type: DataTypes.INTEGER, primaryKey:true},
+    nombreMaquinaria: {type: DataTypes.STRING},
+    estadoMaquinaria: {type: DataTypes.BOOLEAN},
+},{
+    timestamps: false
+})
+
+//Modelo tramites
+export const ModelTramites = db.define('tramites',{
+    idTramite: {type: DataTypes.INTEGER, primaryKey:true},
+    nombreTramite: {type: DataTypes.STRING},
+    estadoTramite: {type: DataTypes.BOOLEAN},
+},{
+    timestamps: false
+})
+
+//Gastos Adicional Obra
+export const GastoAdicionalObra = db.define('gastos_obras_adicionales',{
+    idGasto: {type: DataTypes.INTEGER, primaryKey:true},
+    idObra: {type: DataTypes.INTEGER},
+    idAdicional: {type: DataTypes.INTEGER},
+    unidad : {type: DataTypes.STRING},
+    cantidad: {type: DataTypes.INTEGER},
+    precio: {type: DataTypes.DOUBLE},
+    total: {type: DataTypes.DOUBLE},
+    fecha: {type: DataTypes.DATE},
+},{
+    timestamps:false
+})
+
+//Gastos Maquinaria Obra
+export const GastoMaquinariaObra = db.define('gastos_maquinarias',{
+    idGasto: {type: DataTypes.INTEGER, primaryKey:true},
+    idObra: {type: DataTypes.INTEGER},
+    idMaquinaria: {type: DataTypes.INTEGER},
+    unidad : {type: DataTypes.STRING},
+    cantidad: {type: DataTypes.INTEGER},
+    precio: {type: DataTypes.DOUBLE},
+    total: {type: DataTypes.DOUBLE},
+    fecha: {type: DataTypes.DATE},
+},{
+    timestamps:false
+})
+
+//Gastos Tramites Obra
+export const GastoTramitesObra = db.define('gastos_tramites',{
+    idGasto: {type: DataTypes.INTEGER, primaryKey:true},
+    idObra: {type: DataTypes.INTEGER},
+    idTramite: {type: DataTypes.INTEGER},
+    cantidad: {type: DataTypes.INTEGER},
+    precio: {type: DataTypes.DOUBLE},
+    total: {type: DataTypes.DOUBLE},
+    fecha: {type: DataTypes.DATE},
 },{
     timestamps:false
 })
