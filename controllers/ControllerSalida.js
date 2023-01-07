@@ -65,7 +65,7 @@ export const createSalida = async  (req,res) =>{
     //console.log("Body de la respuesta : ",req.body);
     const materials = JSON.parse(req.body.listaCarrito);
     const numObra = req.body.idObra;
-    const fecha = req.body.fecha;
+    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
     //console.log(materials)
     //console.log(numObra)
    

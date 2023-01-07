@@ -33,7 +33,8 @@ export const createPrestamo = async  (req,res) =>{
     const carrito = JSON.parse(req.body.listaCarrito);
     const numObraOriginal = req.body.idObraOriginal;
     const numObraNueva = req.body.idObraNueva;
-    const fecha = req.body.fecha;
+    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+
     //console.log(materials)
     console.log(numObraOriginal)
     console.log(numObraNueva)

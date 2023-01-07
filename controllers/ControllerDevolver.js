@@ -5,9 +5,9 @@ import db from "../database/db.js";
 export const devolver = async (req, res) => {
 
     const cantEnt=req.body.cantidad
-    const fecha = req.body.fecha;
     const precio = req.body.precio;
     const bodega=req.body.bodega;
+    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
 
     try{    
         const resultado = await Prestamos.findAll({
