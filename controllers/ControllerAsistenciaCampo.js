@@ -153,3 +153,53 @@ export const updateAsistencia = async (req,res) =>{
         res.json({message: error.message})
     }
 }
+
+export const getListaPersonal = async (req,res) =>{
+    try{
+        const obra = req.params.id
+        const personal = await db.query(
+            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM obra_empleados oe JOIN empleados e ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} ORDER BY e.nombreEmp ASC`,
+            {type: db.QueryTypes.SELECT}
+        )
+        res.json(personal)
+    }catch (error){
+        res.json({message: error.message})
+    }
+}
+
+export const createAsistenciaAtrasada = async (req,res) =>{
+    try{
+        const obra = req.body.idObra
+        const empleado = req.body.idEmpleado
+        const asistencia = req.body.asistencia
+        const fecha = req.body.fecha
+        const observacion = req.body.observacion
+        console.log(obra,empleado,asistencia,fecha, observacion)
+        var getdatetime = new Date();
+        var week1 = moment(getdatetime,"DD-MM-YYYY").isoWeek()
+        const week2 = moment(fecha,"YYYY-MM-DD").isoWeek()
+        if(week1 === week2){
+            const resultado = await db.query(
+                `SELECT * FROM asistencia_obra_empleados WHERE idObra = ${obra} AND idEmpleado = ${empleado} AND fecha = '${fecha}' `,
+                {type: db.QueryTypes.SELECT}
+            )
+            if(resultado.length === 0){
+                await db.query(`INSERT INTO asistencia_obra_empleados (idObra, idEmpleado, asistencia, observacion, semana, fecha) VALUES (${obra}, ${empleado}, ${asistencia}, '${observacion}', ${week1},'${fecha}');`)
+                console.log("Asistencia agregada")
+                res.json({
+                    "message": "SE GUARDÓ ASISTENCIA CORRECTAMENTE"
+                })
+            }else{
+                res.json({
+                    "message": "ASISTENCIA YA REGISTRADA..."
+                })
+            }
+        }else{
+            res.json({
+                "message": "LA ASISTENCIA DEBE SER DE ESTA SEMANA"
+            })
+        }
+    }catch (error){
+        res.json({message: error.message})
+    }
+}

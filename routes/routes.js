@@ -24,7 +24,7 @@ import { updatePin } from '../controllers/ControllerPinEmpleado.js';
 import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResidentes, addResidente, getResidente } from '../controllers/ControllerManoObra.js';
 import { getAsisOficina,getEmpleadosOfi,createAsisOfis,updateAsisOfi} from '../controllers/ControllerAsisOfi.js';
 import { getGastosMat,totalGastos } from '../controllers/ControllerGastoMat.js';
-import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada, updateAsistencia } from '../controllers/ControllerAsistenciaCampo.js';
+import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada, updateAsistencia, getListaPersonal, createAsistenciaAtrasada } from '../controllers/ControllerAsistenciaCampo.js';
 import { getGastosManoObra, createGatosObra, getGastosRegistrados, getGastoTotalManoObra } from '../controllers/ControllerGastosManoObra.js';
 import { getAllAdicionales, getAdicional, createAdicional, updateAdicional, deleteAdicional } from '../controllers/ControllerAdicionales.js';
 import { getAllMaquinarias, getMaquinaria, createMaquinaria, updateMaquinaria, deleteMaquinaria } from '../controllers/ControllerMaquinarias.js';
@@ -172,6 +172,10 @@ router.post('/residentes/', addResidente)
 router.get('/asistencia-obra/',getAsistencia)
 router.get('/asistencia-obra/:id', getPersonalObra)
 router.post('/asistencia-obra/', createAsistencia)
+router.get('/personal-obra/:id', getListaPersonal)
+router.post('/asistencia-atrasada-obra/', createAsistenciaAtrasada)
+router.get('/lista-asistencia/:id', getAsistenciaTomada)
+router.put('/asistencia-obra/:ido/emp/:ide', updateAsistencia)
 
 //Asistencia oficina
 router.get('/asistencia-oficina/',getAsisOficina)
@@ -182,10 +186,6 @@ router.put('/asistencia-oficina/emp/:ide', updateAsisOfi)
 //gastos materiales
 router.get('/gastosMat/obra/:idO', getGastosMat)
 router.get('/totalGastosMat/:idO', totalGastos)
-
-//
-router.get('/lista-asistencia/:id', getAsistenciaTomada)
-router.put('/asistencia-obra/:ido/emp/:ide', updateAsistencia)
 
 //Gastos mano de obra
 router.get('/gastos-mano-obra/:id', getGastosManoObra)
