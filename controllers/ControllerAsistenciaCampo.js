@@ -158,7 +158,7 @@ export const getListaPersonal = async (req,res) =>{
     try{
         const obra = req.params.id
         const personal = await db.query(
-            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM obra_empleados oe JOIN empleados e ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} ORDER BY e.nombreEmp ASC`,
+            `SELECT oe.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM obra_empleados oe JOIN empleados e ON oe.idEmpleado = e.idEmpleado WHERE oe.idObra = ${obra} ORDER BY e.nombreEmp ASC;`,
             {type: db.QueryTypes.SELECT}
         )
         res.json(personal)
