@@ -371,3 +371,4 @@ export const GastoTramitesObra = db.define('gastos_tramites',{
 },{
     timestamps:false
 })
+

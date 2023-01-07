@@ -21,7 +21,7 @@ export const getEmpleadosOfi = async (req,res) =>{
     const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
     try{
             const empleados = await db.query(
-                `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_oficinas ao WHERE ao.asistencia IN (1,0.5) and ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
+                `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' OR p.nombrePuesto='residente' AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_oficinas ao WHERE ao.asistencia IN (1,0.5) and ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
                 {type: db.QueryTypes.SELECT}
             )
             res.json(empleados)

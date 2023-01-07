@@ -32,6 +32,7 @@ import { getAllTramites, getTramite, createTramite, updateTramite, deleteTramite
 import { getGastosAdicionales, createGastoAdicional, getGastoTotalAdicionales } from '../controllers/ControllerGastosAdicionales.js';
 import { getGastosMaquinarias, createGastoMaquinaria, getGastoTotalMaquinaria } from '../controllers/ControllerGastosMaquinaria.js';
 import { getGastosTramites, createGastoTramite, getGastoTotalTramites } from '../controllers/ControllerGastosTramites.js';
+import { getPagOficina,createGastOfi,getGastosOficina} from '../controllers/ControllerGastosOficina.js';
 
 const router = express.Router();
 
@@ -178,6 +179,11 @@ router.get('/asistencia-oficina/',getAsisOficina)
 router.get('/empleadosOficina/',getEmpleadosOfi)
 router.post('/createAsisOfis/', createAsisOfis)
 router.put('/asistencia-oficina/emp/:ide', updateAsisOfi)
+
+//gastos de oficina
+router.get('/pagosOficina/',getPagOficina)
+router.post('/guardarPagos/',createGastOfi)
+router.get('/getGatosOficina/',getGastosOficina)
 
 //gastos materiales
 router.get('/gastosMat/obra/:idO', getGastosMat)
