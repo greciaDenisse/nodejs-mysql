@@ -25,6 +25,11 @@ export const getAsistencia = async (req,res) =>{
         console.log(moment(getdatetime).format())
         console.log(moment(getdatetime).format('YYYY-MM-DD'))
         console.log(moment(getdatetime).format('HH:mm:ss'))
+        var date = moment( new Date());
+        const hora = date.tz('America/Mexico_City').format('HH:mm:ss')
+        const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
+        console.log(hora)
+        console.log(fecha)
         
         //console.log(datetime.getDay());
         //console.log(hours);
