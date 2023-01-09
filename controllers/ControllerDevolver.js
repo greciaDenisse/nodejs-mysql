@@ -7,7 +7,8 @@ export const devolver = async (req, res) => {
     const cantEnt=req.body.cantidad
     const precio = req.body.precio;
     const bodega=req.body.bodega;
-    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+    var date = moment( new Date());
+    const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
 
     try{    
         const resultado = await Prestamos.findAll({

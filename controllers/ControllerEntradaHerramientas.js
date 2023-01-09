@@ -45,8 +45,9 @@ export const createEntradaHerramientas = async (req, res) => {
                     raw: true,
                 })
                 const lastId = idEH[0]["maxId"];
-                const hora = moment().locale('zh-mx').format('HH:mm:ss');
-                const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+                var date = moment( new Date());
+                const hora = date.tz('America/Mexico_City').format('HH:mm:ss')
+                const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
                 await ModelEntradaHerramientas.create({
                     idEntHer: lastId + 1, idHerramienta: lista[i].idL,
                     idObra: obra, idEntrega:entrega, idRecibe: recibe, 

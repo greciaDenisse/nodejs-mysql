@@ -33,7 +33,8 @@ export const createPrestamo = async  (req,res) =>{
     const carrito = JSON.parse(req.body.listaCarrito);
     const numObraOriginal = req.body.idObraOriginal;
     const numObraNueva = req.body.idObraNueva;
-    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+    var date = moment( new Date());
+    const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
 
     //console.log(materials)
     console.log(numObraOriginal)
@@ -83,8 +84,9 @@ export const createPrestamo = async  (req,res) =>{
             const lastIdPrestamo = prestamoId[0]["maxId"];  
             
 
-            const hora = moment().locale('zh-mx').format('HH:mm:ss');
-            const fechaPrestamo = moment().locale('zh-mx').format('YYYY-MM-DD');
+            var date1 = moment( new Date());
+            const hora = date1.tz('America/Mexico_City').format('HH:mm:ss')
+            const fechaPrestamo = date1.tz('America/Mexico_City').format('YYYY-MM-DD')
 
            await Prestamos.create({idPrestamo: lastIdPrestamo + 1, 
                 cantSalMat: carrito[i].cantidad,prestamoCant: carrito[i].cantidad,horaPrestamo:hora,fechaPrestamo:fechaPrestamo,
