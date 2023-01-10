@@ -25,7 +25,7 @@ import { getAllManoObra, createPersonal, getPersonal, deletePersonal, getResiden
 import { getAsisOficina,getEmpleadosOfi,createAsisOfis,updateAsisOfi} from '../controllers/ControllerAsisOfi.js';
 import { getGastosMat,totalGastos } from '../controllers/ControllerGastoMat.js';
 import { getAsistencia, getPersonalObra, createAsistencia, getAsistenciaTomada, updateAsistencia, getListaPersonal, createAsistenciaAtrasada } from '../controllers/ControllerAsistenciaCampo.js';
-import { getGastosManoObra, createGatosObra, getGastosRegistrados, getGastoTotalManoObra } from '../controllers/ControllerGastosManoObra.js';
+import { getGastosManoObra, createGastosObra, getGastosRegistrados, getGastoTotalManoObra } from '../controllers/ControllerGastosManoObra.js';
 import { getAllAdicionales, getAdicional, createAdicional, updateAdicional, deleteAdicional } from '../controllers/ControllerAdicionales.js';
 import { getAllMaquinarias, getMaquinaria, createMaquinaria, updateMaquinaria, deleteMaquinaria } from '../controllers/ControllerMaquinarias.js';
 import { getAllTramites, getTramite, createTramite, updateTramite, deleteTramite } from '../controllers/ControllerTramites.js';
@@ -196,7 +196,7 @@ router.get('/totalGastosMat/:idO', totalGastos)
 //Gastos mano de obra
 router.get('/gastos-mano-obra/:id', getGastosManoObra)
 router.get('/gastos-registrados/:id', getGastosRegistrados)
-router.post('/gastos-mano-obra/', createGatosObra)
+router.post('/gastos-mano-obra/', createGastosObra)
 router.get('/gasto-total-mano-obra/:id', getGastoTotalManoObra)
 
 //Adicionales

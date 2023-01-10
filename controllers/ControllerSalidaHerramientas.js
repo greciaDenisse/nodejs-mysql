@@ -3,6 +3,7 @@ import db from "../database/db.js";
 import { Sequelize } from "sequelize";
 import moment from "moment/moment.js";
 
+
 export const getAllSalidasHerramientas = async (req,res) =>{
     try{
         const obra = req.params.id
@@ -70,8 +71,9 @@ export const createSalidaHerramientas = async (req, res) => {
                         raw: true,
                     })
                     const lastId = idSH[0]["maxId"];
-                    const hora = moment().locale('zh-mx').format('HH:mm:ss');
-                    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+                    var date = moment( new Date());
+                    const hora = date.tz('America/Mexico_City').format('HH:mm:ss')
+                    const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
                     await ModelSalidaHerramientas.create({
                         idSalHer: lastId + 1, idHerramienta: lista[h].idL,
                         idObra: obra, idRecibe: recibe, idEntrega:entrega,

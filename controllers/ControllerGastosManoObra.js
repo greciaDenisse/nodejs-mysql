@@ -10,7 +10,6 @@ export const getGastosManoObra = async (req,res) =>{
             `SELECT a.idEmpleado, e.codigoEmp, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp, SUM(a.asistencia) AS dias, CAST(SUM(a.extra) AS SIGNED)  AS extras, TRUNCATE(e.sueldoEmp/6,2) AS precio, CAST(TRUNCATE((e.sueldoEmp/6)*SUM(a.asistencia),2) AS FLOAT) AS total FROM asistencia_obra_empleados a JOIN empleados e ON a.idEmpleado = e.idEmpleado WHERE a.idObra = ${obra} AND a.semana = ${week} GROUP BY a.idEmpleado;`,
             {type: db.QueryTypes.SELECT}
         )
-        console.log(moment("25-12-2022","DD-MM-YYYY").isoWeek())
         res.json(gastos)
     } catch (error){
         res.json({message: error.message})
@@ -30,12 +29,13 @@ export const getGastosRegistrados = async (req,res) =>{
     }
 }
 
-export const createGatosObra = async (req,res) =>{
+export const createGastosObra = async (req,res) =>{
     try{
         const obra = req.body.idObra
         const lista = JSON.parse(req.body.lista)
         console.log(lista)
-        const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+        var date = moment( new Date());
+        const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
         var getdatetime = new Date();
         var week = moment(getdatetime,"DD-MM-YYYY").isoWeek()
         const resultado = await db.query(

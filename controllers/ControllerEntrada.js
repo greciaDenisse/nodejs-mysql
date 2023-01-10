@@ -19,7 +19,8 @@ export const createEntrada = async  (req,res) =>{
 
     const materials = JSON.parse(req.body.listaCarrito);
     const numObra = req.body.idObra;
-    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+    var date = moment( new Date());
+    const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
     const bodega = req.body.bodega;
 
     try {
