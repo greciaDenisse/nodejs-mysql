@@ -179,13 +179,17 @@ export const updateEmpleado = async (req, res) => {
             "message": "¡Registro actualizado correctamente!"
         })*/
     } catch (error){
-        res.json({message: error.message})        
+        res.json({message: error.message})
     }
 }
 
 export const deleteEmpleado = async (req, res) => {
     try{
-        await ModelEmpleados.update({estadoEmp:0}, {
+        const resultado = await ModelEmpleados.findAll({
+            where:{idEmpleado:req.params.id}
+        })
+        const nombre = resultado[0].dataValues.nombreEmp
+        await ModelEmpleados.update({nombreEmp: nombre + "-eliminado",estadoEmp:0}, {
             where:{idEmpleado:req.params.id}
         })
         res.json({
