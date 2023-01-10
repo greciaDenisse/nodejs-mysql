@@ -18,20 +18,60 @@ export const getAsisOficina = async (req,res) => {
 
 
 export const getEmpleadosOfi = async (req,res) =>{
-    const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+
+    const arr = [];
+    const arrayFinal = [];
+
     try{
-            const empleados = await db.query(
-                `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' OR p.nombrePuesto='residente' AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_oficinas ao WHERE ao.asistencia IN (1,0.5) and ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
-                {type: db.QueryTypes.SELECT}
+        const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+        const empleadosOfi= await db.query(
+            `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' ORDER BY e.nombreEmp ASC`,
+                {
+                  replacements: [req.params.id],
+                  type:db.QueryTypes.SELECT
+                }
             )
-            res.json(empleados)
-        
+            for (var i = 0; i < empleadosOfi.length; i++) {
+                        arr.push({idEmpleado:empleadosOfi[i].idEmpleado,nombreEmp:empleadosOfi[i].nombreEmp,apellidoPaternoEmp:empleadosOfi[i].apellidoPaternoEmp,apellidoMaternoEmp:empleadosOfi[i].apellidoMaternoEmp})
+            }
+
+            const residentes= await db.query(
+                `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e  JOIN puestos p ON p.idPuesto = e.idPuesto WHERE p.nombrePuesto = 'residente' ORDER BY e.nombreEmp ASC`,
+                    {
+                      replacements: [req.params.id],
+                      type:db.QueryTypes.SELECT
+                    }
+                )
+            for (var i = 0; i < residentes.length; i++) {
+                    arr.push({idEmpleado:residentes[i].idEmpleado,nombreEmp:residentes[i].nombreEmp,apellidoPaternoEmp:residentes[i].apellidoPaternoEmp,apellidoMaternoEmp:residentes[i].apellidoMaternoEmp})
+            }
+            
+            for (var i = 0; i < arr.length; i++) {
+                    const asistenciaOfi= await db.query(
+                        ` SELECT idEmpleado FROM asistencia_oficinas ao WHERE ao.asistencia = 1 and ao.fecha = '${fecha}'`,
+                            {
+                              replacements: [req.params.id],
+                              type:db.QueryTypes.SELECT
+                            }
+                        )
+                        
+                    const resultado = asistenciaOfi.filter(dato => dato.idEmpleado === arr[i].idEmpleado);
+
+                    if(resultado.length === 0){
+                        arrayFinal.push({idEmpleado:arr[i].idEmpleado,nombreEmp:arr[i].nombreEmp,apellidoPaternoEmp:arr[i].apellidoPaternoEmp,apellidoMaternoEmp:arr[i].apellidoMaternoEmp})
+                    }
+            }
+
+            res.json(arrayFinal)
     }catch (error){
         res.json({message: error.message})
     }
 }
 
 export const createAsisOfis = async (req,res) =>{
+    const arr = [];
+    const arrayFinal = [];
+
     try{
 
         const lista = JSON.parse(req.body.lista)
@@ -54,25 +94,59 @@ export const createAsisOfis = async (req,res) =>{
             }
         }   
         const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
-        const personal = await db.query(
-            `SELECT e.idEmpleado FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' AND e.idEmpleado NOT IN (SELECT idEmpleado FROM asistencia_oficinas ao WHERE ao.asistencia IN (1,0.5) and ao.fecha = '${fecha}' ) ORDER BY e.nombreEmp ASC`,
-            {type: db.QueryTypes.SELECT}
-        )
-        console.log(personal)
-        for (let j = 0; j < personal.length; j++) {
+        
+        const empleadosOfi= await db.query(
+            `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' ORDER BY e.nombreEmp ASC`,
+                {
+                  replacements: [req.params.id],
+                  type:db.QueryTypes.SELECT
+                }
+            )
+            for (var i = 0; i < empleadosOfi.length; i++) {
+                        arr.push({idEmpleado:empleadosOfi[i].idEmpleado,nombreEmp:empleadosOfi[i].nombreEmp,apellidoPaternoEmp:empleadosOfi[i].apellidoPaternoEmp,apellidoMaternoEmp:empleadosOfi[i].apellidoMaternoEmp})
+            }
+
+            const residentes= await db.query(
+                `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e  JOIN puestos p ON p.idPuesto = e.idPuesto WHERE p.nombrePuesto = 'residente' ORDER BY e.nombreEmp ASC`,
+                    {
+                      replacements: [req.params.id],
+                      type:db.QueryTypes.SELECT
+                    }
+                )
+            for (var i = 0; i < residentes.length; i++) {
+                    arr.push({idEmpleado:residentes[i].idEmpleado,nombreEmp:residentes[i].nombreEmp,apellidoPaternoEmp:residentes[i].apellidoPaternoEmp,apellidoMaternoEmp:residentes[i].apellidoMaternoEmp})
+            }
+            
+            for (var i = 0; i < arr.length; i++) {
+                    const asistenciaOfi= await db.query(
+                        ` SELECT idEmpleado FROM asistencia_oficinas ao WHERE ao.asistencia = 1 and ao.fecha = '${fecha}'`,
+                            {
+                              replacements: [req.params.id],
+                              type:db.QueryTypes.SELECT
+                            }
+                        )
+                        
+                    const resultado = asistenciaOfi.filter(dato => dato.idEmpleado === arr[i].idEmpleado);
+
+                    if(resultado.length === 0){
+                        arrayFinal.push({idEmpleado:arr[i].idEmpleado,nombreEmp:arr[i].nombreEmp,apellidoPaternoEmp:arr[i].apellidoPaternoEmp,apellidoMaternoEmp:arr[i].apellidoMaternoEmp})
+                    }
+            }
+        
+        for (let j = 0; j < arrayFinal.length; j++) {
             const fechaNow = moment().locale('zh-mx').format('YYYY-MM-DD');
             const resultado = await db.query(
-                `SELECT * FROM asistencia_oficinas WHERE idEmpleado = ${personal[j].idEmpleado} AND fecha = '${fecha}' `,
+                `SELECT * FROM asistencia_oficinas WHERE idEmpleado = ${arrayFinal[j].idEmpleado} AND fecha = '${fecha}' `,
                 {type: db.QueryTypes.SELECT}
             )
             var getdatetime = new Date();
             var week = moment(getdatetime,"DD-MM-YYYY").isoWeek()
             if(resultado.length === 0){
-                await db.query(`INSERT INTO asistencia_oficinas (idEmpleado, asistencia, semana, fecha) VALUES (${personal[j].idEmpleado}, 0, ${week},'${fechaNow}');`)
+                await db.query(`INSERT INTO asistencia_oficinas (idEmpleado, asistencia, semana, fecha) VALUES (${arrayFinal[j].idEmpleado}, 0, ${week},'${fechaNow}');`)
                 
                  console.log("Falta agregada")
             }else{
-                await db.query(`UPDATE asistencia_oficinas SET asistencia = 0, semana = ${week} WHERE idEmpleado = ${personal[j].idEmpleado} AND fecha = '${fechaNow}'`)
+                await db.query(`UPDATE asistencia_oficinas SET asistencia = 0, semana = ${week} WHERE idEmpleado = ${arrayFinal[j].idEmpleado} AND fecha = '${fechaNow}'`)
                 console.log("Falta agregada")
             }
         }
@@ -91,7 +165,8 @@ export const updateAsisOfi = async (req,res) =>{
         const empleado = req.params.ide
         const fecha = req.body.fecha
         const asistencia = req.body.asistencia
-       
+        const extra = req.body.extra
+
         await db.query(`UPDATE asistencia_oficinas SET asistencia = ${asistencia} WHERE idEmpleado = ${empleado} AND fecha = '${fecha}'`)
         res.json({
             "message": "¡Registro modificado correctamente!"
