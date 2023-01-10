@@ -23,7 +23,8 @@ export const getEmpleadosOfi = async (req,res) =>{
     const arrayFinal = [];
 
     try{
-        const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+        var date = moment( new Date());
+        const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
         const empleadosOfi= await db.query(
             `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' ORDER BY e.nombreEmp ASC`,
                 {
@@ -77,7 +78,8 @@ export const createAsisOfis = async (req,res) =>{
         const lista = JSON.parse(req.body.lista)
 
         for (let i = 0; i < lista.length; i++) {
-            const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+            var date = moment( new Date());
+            const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
             const resultado = await db.query(
                 `SELECT * FROM asistencia_oficinas WHERE idEmpleado = ${lista[i].idEmpleado} AND fecha = '${fecha}' `,
                 {type: db.QueryTypes.SELECT}
@@ -93,7 +95,8 @@ export const createAsisOfis = async (req,res) =>{
                 console.log("Asistencia agregada")
             }
         }   
-        const fecha = moment().locale('zh-mx').format('YYYY-MM-DD');
+        var date = moment( new Date());
+        const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
         
         const empleadosOfi= await db.query(
             `SELECT e.idEmpleado, e.nombreEmp, e.apellidoPaternoEmp, e.apellidoMaternoEmp FROM empleados e JOIN areas a ON a.idArea = e.idArea JOIN puestos p ON p.idPuesto = e.idPuesto WHERE a.nombreArea != 'campo' ORDER BY e.nombreEmp ASC`,
@@ -134,7 +137,8 @@ export const createAsisOfis = async (req,res) =>{
             }
         
         for (let j = 0; j < arrayFinal.length; j++) {
-            const fechaNow = moment().locale('zh-mx').format('YYYY-MM-DD');
+            var date = moment( new Date());
+            const fechaNow = date.tz('America/Mexico_City').format('YYYY-MM-DD')
             const resultado = await db.query(
                 `SELECT * FROM asistencia_oficinas WHERE idEmpleado = ${arrayFinal[j].idEmpleado} AND fecha = '${fecha}' `,
                 {type: db.QueryTypes.SELECT}
@@ -163,7 +167,8 @@ export const updateAsisOfi = async (req,res) =>{
     try{
         
         const empleado = req.params.ide
-        const fecha = req.body.fecha
+        var date = moment( new Date());
+        const fecha = date.tz('America/Mexico_City').format('YYYY-MM-DD')
         const asistencia = req.body.asistencia
         const extra = req.body.extra
 
